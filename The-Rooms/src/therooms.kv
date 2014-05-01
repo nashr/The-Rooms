@@ -3,5 +3,12 @@
 <TheRoomsGame>:
 	canvas:
 		Rectangle:
+			id: room
 			size: root.size
 			texture: root.imageManager.room
+		
+		Rectangle:
+			id: left_door
+			pos: 325, 102
+			size: root.imageManager.centerdoorwidth * root.xScale, root.imageManager.centerdoorheight * root.yScale
+			texture: root.imageManager.centerdoor
