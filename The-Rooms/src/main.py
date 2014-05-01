@@ -2,8 +2,12 @@ from kivy.app import App
 from kivy.clock import Clock
 from kivy.uix.widget import Widget
 
+from manager import ImageManager
+
 # Root of app's UI
 class TheRoomsGame(Widget):
+	imageManager = ImageManager()
+
 	def update(self, dt):
 		pass
 
