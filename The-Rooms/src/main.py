@@ -14,12 +14,16 @@ class TheRoomsGame(Widget):
 	xScale = NumericProperty(1.0)
 	yScale = NumericProperty(1.0)
 	
+	leftLamp = ObjectProperty(None)
 	centerLamp = ObjectProperty(None)
+	RightLamp = ObjectProperty(None)
 	
 	def __init__(self, **kwargs):
 		super(TheRoomsGame, self).__init__(**kwargs)
 		
-		self.centerLamp.set_texture(self.imageManager.centerlampdir)
+		self.leftLamp.set_base(self.imageManager.leftlampdir, 80.0, 437.5)
+		self.centerLamp.set_base(self.imageManager.centerlampdir, 375.0, 410.0)
+		self.rightLamp.set_base(self.imageManager.rightlampdir, 668.0, 437.5)
 	
 	def take_scale(self):
 		retval = False
@@ -38,7 +42,10 @@ class TheRoomsGame(Widget):
 	
 	def update(self, dt):
 		self.take_scale()
+		
+		self.leftLamp.update(self.xScale, self.yScale)
 		self.centerLamp.update(self.xScale, self.yScale)
+		self.rightLamp.update(self.xScale, self.yScale)
 		
 	def on_touch_down(self, touch):
 		pass
@@ -47,8 +54,14 @@ class TheRoomsGame(Widget):
 		pass
 	
 	def on_touch_up(self, touch):
+		if self.leftLamp.is_pressed(touch.x, touch.y):
+			self.leftLamp.change_state()
+
 		if self.centerLamp.is_pressed(touch.x, touch.y):
 			self.centerLamp.change_state()
+		
+		if self.rightLamp.is_pressed(touch.x, touch.y):
+			self.rightLamp.change_state()
 
 # Main app
 class TheRoomsApp(App):

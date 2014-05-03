@@ -9,31 +9,40 @@ class Door(Widget):
 	pass
 
 class Lamp(Widget):
-	# Base values
-	WIDTH = 150
-	HEIGHT = 50
+	# Base variables
+	TEXTURE = ObjectProperty(None)
 	
-	X_UNIT = 50.0
-	Y_UNIT = 50.0
+	WIDTH = NumericProperty(1.0)
+	HEIGHT = NumericProperty(1.0)
 	
-	X = 375.0
-	Y = 410.0
+	X_UNIT = NumericProperty(1.0)
+	Y_UNIT = NumericProperty(1.0)
 	
-	# Changable values
+	X = NumericProperty(1.0)
+	Y = NumericProperty(1.0)
+	
+	# Run variables
 	state = NumericProperty(1)
 	
-	texture = ObjectProperty(None)
-	
-	xUnit = NumericProperty(X_UNIT)
-	yUnit = NumericProperty(Y_UNIT)
+	xUnit = NumericProperty(1.0)
+	yUnit = NumericProperty(1.0)
 	
 	curr_texture = ObjectProperty(None)
 	
-	x = NumericProperty(X)
-	y = NumericProperty(Y)
+	x = NumericProperty(1.0)
+	y = NumericProperty(1.0)
 
-	def set_texture(self, texture_id):
-		self.texture = Image(texture_id).texture
+	def set_base(self, texture_id, x, y):
+		self.TEXTURE = Image(texture_id).texture
+		
+		self.WIDTH = self.TEXTURE.width
+		self.HEIGHT = self.TEXTURE.height
+		
+		self.X_UNIT = self.WIDTH / 3
+		self.Y_UNIT = self.HEIGHT / 1
+		
+		self.X = x
+		self.Y = y
 
 	def is_pressed(self, x, y):
 		if x > self.x and y > self.y:
@@ -52,4 +61,4 @@ class Lamp(Widget):
 		self.x = self.X * xScale
 		self.y = self.Y * yScale
 		
-		self.curr_texture = self.texture.get_region(self.state * self.X_UNIT, 0, self.X_UNIT, self.Y_UNIT)
+		self.curr_texture = self.TEXTURE.get_region(self.state * self.X_UNIT, 0, self.X_UNIT, self.Y_UNIT)

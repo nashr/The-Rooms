@@ -8,11 +8,12 @@
 			texture: self.curr_texture
 
 <TheRoomsGame>:
+	leftLamp: left_lamp
 	centerLamp: center_lamp
+	rightLamp: right_lamp
 
 	canvas:
 		Rectangle:
-			id: room
 			size: root.size
 			texture: root.imageManager.room
 		
@@ -35,4 +36,10 @@
 			texture: root.imageManager.rightdoor
 
 	Lamp:
+		id: left_lamp
+
+	Lamp:
 		id: center_lamp
+	
+	Lamp:
+		id: right_lamp

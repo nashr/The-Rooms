@@ -42,9 +42,10 @@ class ImageManager:
 	
 	# Lamp's textures
 	# 1 - Left
+	leftlampdir = os.path.join(imgdir, "Lamp_Left.png")
 
 	# 2 - Center
 	centerlampdir = os.path.join(imgdir, "Lamp_Center.png")
-	centerlamp = Image(centerlampdir).texture
 
 	# 3 - Right
+	rightlampdir = os.path.join(imgdir, "Lamp_Right.png")
