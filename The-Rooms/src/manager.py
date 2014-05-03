@@ -19,7 +19,10 @@ class ImageManager:
 	# 1 - Left
 	leftdoordir = os.path.join(imgdir, "Door_Left.png")
 	leftdoor = Image(leftdoordir).texture
-	leftdoorsize = leftdoor.size
+	leftdoorwidth = leftdoor.width
+	leftdoorheight = leftdoor.height
+	leftdoorx = 45
+	leftdoory = 25
 	
 	# 2 - Center
 	centerdoordir = os.path.join(imgdir, "Door_Center.png")
@@ -32,4 +35,16 @@ class ImageManager:
 	# 3 - Right
 	rightdoordir = os.path.join(imgdir, "Door_Right.png")
 	rightdoor = Image(rightdoordir).texture
-	rightdoorsize = rightdoor.size
+	rightdoorwidth = rightdoor.width
+	rightdoorheight = rightdoor.height
+	rightdoorx = 640
+	rightdoory = 27
+	
+	# Lamp's textures
+	# 1 - Left
+
+	# 2 - Center
+	centerlampdir = os.path.join(imgdir, "Lamp_Center.png")
+	centerlamp = Image(centerlampdir).texture
+
+	# 3 - Right

@@ -1,6 +1,15 @@
 #:kivy 1.8.0
 
+<Lamp>:
+	canvas:
+		Rectangle:
+			pos: self.x, self.y
+			size: self.xUnit, self.yUnit
+			texture: self.curr_texture
+
 <TheRoomsGame>:
+	centerLamp: center_lamp
+
 	canvas:
 		Rectangle:
 			id: room
@@ -8,7 +17,22 @@
 			texture: root.imageManager.room
 		
 		Rectangle:
+			id: left_door
+			pos: root.imageManager.leftdoorx * root.xScale, root.imageManager.leftdoory * root.yScale
+			size: root.imageManager.leftdoorwidth * root.xScale, root.imageManager.leftdoorheight * root.yScale
+			texture: root.imageManager.leftdoor
+		
+		Rectangle:
 			id: center_door
 			pos: root.imageManager.centerdoorx * root.xScale, root.imageManager.centerdoory * root.yScale
 			size: root.imageManager.centerdoorwidth * root.xScale, root.imageManager.centerdoorheight * root.yScale
 			texture: root.imageManager.centerdoor
+		
+		Rectangle:
+			id: right_door
+			pos: root.imageManager.rightdoorx * root.xScale, root.imageManager.rightdoory * root.yScale
+			size: root.imageManager.rightdoorwidth * root.xScale, root.imageManager.rightdoorheight * root.yScale
+			texture: root.imageManager.rightdoor
+
+	Lamp:
+		id: center_lamp
