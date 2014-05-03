@@ -1,5 +1,12 @@
 #:kivy 1.8.0
 
+<Arrow>:
+	canvas:
+		Rectangle:
+			pos: self.x, self.y
+			size: self.xUnit, self.yUnit
+			texture: self.curr_texture
+
 <Lamp>:
 	canvas:
 		Rectangle:
@@ -8,6 +15,8 @@
 			texture: self.curr_texture
 
 <TheRoomsGame>:
+	arrow: arrow
+
 	leftLamp: left_lamp
 	centerLamp: center_lamp
 	rightLamp: right_lamp
@@ -43,3 +52,6 @@
 	
 	Lamp:
 		id: right_lamp
+	
+	Arrow:
+		id: arrow

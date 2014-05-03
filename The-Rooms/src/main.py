@@ -5,7 +5,7 @@ from kivy.properties import NumericProperty, ObjectProperty
 from kivy.uix.widget import Widget
 
 from manager import ImageManager
-from model import Lamp
+from model import Arrow, Lamp
 
 # Root of app's UI
 class TheRoomsGame(Widget):
@@ -14,6 +14,8 @@ class TheRoomsGame(Widget):
 	xScale = NumericProperty(1.0)
 	yScale = NumericProperty(1.0)
 	
+	arrow = ObjectProperty(None)
+	
 	leftLamp = ObjectProperty(None)
 	centerLamp = ObjectProperty(None)
 	RightLamp = ObjectProperty(None)
@@ -21,6 +23,8 @@ class TheRoomsGame(Widget):
 	def __init__(self, **kwargs):
 		super(TheRoomsGame, self).__init__(**kwargs)
 		
+		self.arrow.set_base(self.imageManager.arrowdir, 700.0, 525.0)
+
 		self.leftLamp.set_base(self.imageManager.leftlampdir, 80.0, 437.5)
 		self.centerLamp.set_base(self.imageManager.centerlampdir, 375.0, 410.0)
 		self.rightLamp.set_base(self.imageManager.rightlampdir, 668.0, 437.5)
@@ -42,6 +46,8 @@ class TheRoomsGame(Widget):
 	
 	def update(self, dt):
 		self.take_scale()
+		
+		self.arrow.update(self.xScale, self.yScale)
 		
 		self.leftLamp.update(self.xScale, self.yScale)
 		self.centerLamp.update(self.xScale, self.yScale)

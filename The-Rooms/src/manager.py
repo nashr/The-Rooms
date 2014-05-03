@@ -15,7 +15,10 @@ class ImageManager:
 	roomwidth = room.width
 	roomheight = room.height
 	
-	# Door's textures
+	# Arrow's directory
+	arrowdir = os.path.join(imgdir, "Arrow.png")
+	
+	# Door's directories
 	# 1 - Left
 	leftdoordir = os.path.join(imgdir, "Door_Left.png")
 	leftdoor = Image(leftdoordir).texture
@@ -40,7 +43,7 @@ class ImageManager:
 	rightdoorx = 640
 	rightdoory = 27
 	
-	# Lamp's textures
+	# Lamp's directories
 	# 1 - Left
 	leftlampdir = os.path.join(imgdir, "Lamp_Left.png")
 
