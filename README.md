@@ -1,4 +1,4 @@
 The-Rooms
 =========
 
-Minesweeper likely game in 3D
+Minesweeper likely game in 3D sense
