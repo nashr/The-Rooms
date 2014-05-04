@@ -14,6 +14,8 @@ class TheRoomsGame(Widget):
 	xScale = NumericProperty(1.0)
 	yScale = NumericProperty(1.0)
 	
+	fontSize = NumericProperty(64.0)
+	
 	navi = ObjectProperty(None)
 	
 	back = ObjectProperty(None)
@@ -58,6 +60,8 @@ class TheRoomsGame(Widget):
 	
 	def update(self, dt):
 		self.take_scale()
+		
+		self.fontSize = 64.0 * self.yScale * 1.2
 		
 		self.navi.update(self.xScale, self.yScale)
 		
