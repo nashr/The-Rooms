@@ -1,6 +1,13 @@
 #:kivy 1.8.0
 
-<Arrow>:
+<Back>:
+	canvas:
+		Rectangle:
+			pos: self.x, self.y
+			size: self.width, self.height
+			texture: self.TEXTURE
+
+<Door>:
 	canvas:
 		Rectangle:
 			pos: self.x, self.y
@@ -14,8 +21,25 @@
 			size: self.xUnit, self.yUnit
 			texture: self.curr_texture
 
+<Navigator>:
+	canvas:
+		Rotate:
+			angle: self.angle
+			origin: self.x + self.xUnit / 2, self.y + self.yUnit / 2
+
+		Rectangle:
+			pos: self.x, self.y
+			size: self.xUnit, self.yUnit
+			texture: self.curr_texture
+
 <TheRoomsGame>:
-	arrow: arrow
+	navi: navi_arrow
+	
+	back: back_arrow
+
+	leftDoor: left_door
+	centerDoor: center_door
+	rightDoor: right_door
 
 	leftLamp: left_lamp
 	centerLamp: center_lamp
@@ -25,24 +49,21 @@
 		Rectangle:
 			size: root.size
 			texture: root.imageManager.room
-		
-		Rectangle:
-			id: left_door
-			pos: root.imageManager.leftdoorx * root.xScale, root.imageManager.leftdoory * root.yScale
-			size: root.imageManager.leftdoorwidth * root.xScale, root.imageManager.leftdoorheight * root.yScale
-			texture: root.imageManager.leftdoor
-		
-		Rectangle:
-			id: center_door
-			pos: root.imageManager.centerdoorx * root.xScale, root.imageManager.centerdoory * root.yScale
-			size: root.imageManager.centerdoorwidth * root.xScale, root.imageManager.centerdoorheight * root.yScale
-			texture: root.imageManager.centerdoor
-		
-		Rectangle:
-			id: right_door
-			pos: root.imageManager.rightdoorx * root.xScale, root.imageManager.rightdoory * root.yScale
-			size: root.imageManager.rightdoorwidth * root.xScale, root.imageManager.rightdoorheight * root.yScale
-			texture: root.imageManager.rightdoor
+
+	Label:
+		center_x: root.center_x
+		top: root.top
+		font_size: 75
+		text: str(3)
+
+	Door:
+		id: left_door
+	
+	Door:
+		id: center_door
+	
+	Door:
+		id: right_door
 
 	Lamp:
 		id: left_lamp
@@ -53,5 +74,8 @@
 	Lamp:
 		id: right_lamp
 	
-	Arrow:
-		id: arrow
+	Back:
+		id: back_arrow
+	
+	Navigator:
+		id: navi_arrow

@@ -5,7 +5,7 @@ from kivy.properties import NumericProperty, ObjectProperty
 from kivy.uix.widget import Widget
 
 from manager import ImageManager
-from model import Arrow, Lamp
+from model import Back, Lamp, Navigator
 
 # Root of app's UI
 class TheRoomsGame(Widget):
@@ -14,7 +14,13 @@ class TheRoomsGame(Widget):
 	xScale = NumericProperty(1.0)
 	yScale = NumericProperty(1.0)
 	
-	arrow = ObjectProperty(None)
+	navi = ObjectProperty(None)
+	
+	back = ObjectProperty(None)
+	
+	leftDoor = ObjectProperty(None)
+	centerDoor = ObjectProperty(None)
+	RightDoor = ObjectProperty(None)
 	
 	leftLamp = ObjectProperty(None)
 	centerLamp = ObjectProperty(None)
@@ -23,8 +29,14 @@ class TheRoomsGame(Widget):
 	def __init__(self, **kwargs):
 		super(TheRoomsGame, self).__init__(**kwargs)
 		
-		self.arrow.set_base(self.imageManager.arrowdir, 700.0, 525.0)
+		self.navi.set_base(self.imageManager.navigatordir, 700.0, 525.0)
+		
+		self.back.set_base(self.imageManager.backdir, 350.0, 0.0)
 
+		self.leftDoor.set_base(self.imageManager.leftdoordir, 45.0, 25.0)
+		self.centerDoor.set_base(self.imageManager.centerdoordir, 325.0, 102.0)
+		self.rightDoor.set_base(self.imageManager.rightdoordir, 640.0, 27.0)
+		
 		self.leftLamp.set_base(self.imageManager.leftlampdir, 80.0, 437.5)
 		self.centerLamp.set_base(self.imageManager.centerlampdir, 375.0, 410.0)
 		self.rightLamp.set_base(self.imageManager.rightlampdir, 668.0, 437.5)
@@ -47,7 +59,13 @@ class TheRoomsGame(Widget):
 	def update(self, dt):
 		self.take_scale()
 		
-		self.arrow.update(self.xScale, self.yScale)
+		self.navi.update(self.xScale, self.yScale)
+		
+		self.back.update(self.xScale, self.yScale)
+		
+		self.leftDoor.update(self.xScale, self.yScale)
+		self.centerDoor.update(self.xScale, self.yScale)
+		self.rightDoor.update(self.xScale, self.yScale)
 		
 		self.leftLamp.update(self.xScale, self.yScale)
 		self.centerLamp.update(self.xScale, self.yScale)
@@ -60,6 +78,15 @@ class TheRoomsGame(Widget):
 		pass
 	
 	def on_touch_up(self, touch):
+		if self.leftDoor.is_pressed(touch.x, touch.y):
+			self.leftDoor.change_state()
+
+		if self.centerDoor.is_pressed(touch.x, touch.y):
+			self.centerDoor.change_state()
+		
+		if self.rightDoor.is_pressed(touch.x, touch.y):
+			self.rightDoor.change_state()
+
 		if self.leftLamp.is_pressed(touch.x, touch.y):
 			self.leftLamp.change_state()
 
