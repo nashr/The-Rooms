@@ -11,9 +11,6 @@ class ImageManager:
 	
 	# Room's texture
 	roomdir = os.path.join(imgdir, "Room.png")
-	room = Image(roomdir).texture
-	roomwidth = room.width
-	roomheight = room.height
 	
 	# Arrow's directories
 	# 1 - Navigator

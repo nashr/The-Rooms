@@ -1,195 +1,62 @@
-from kivy.core.image import Image
-from kivy.core.window import Window
-from kivy.properties import NumericProperty, ObjectProperty, StringProperty
-from kivy.uix.widget import Widget
+from kivy.properties import NumericProperty, ReferenceListProperty
+from kivy.vector import Vector
 
-class Back(Widget):
-	# Base variables
-	TEXTURE = ObjectProperty(None)
-	
-	WIDTH = NumericProperty(1.0)
-	HEIGHT = NumericProperty(1.0)
-	
-	X = NumericProperty(1.0)
-	Y = NumericProperty(1.0)
+from Numeric import *
 
-	# Run variables
-	width = NumericProperty(1.0)
-	height = NumericProperty(1.0)
-	
-	x = NumericProperty(1.0)
-	y = NumericProperty(1.0)
+class Maze:
+	# Dimension of maze (row x column)
+	row = NumericProperty(0)
+	col = NumericProperty(0)
 
-	def set_base(self, texture_dir, x, y):
-		self.TEXTURE = Image(texture_dir).texture
+	def __init__(self, row, col):
+		self.row = row
+		self.col = col
 		
-		self.WIDTH = self.TEXTURE.width
-		self.HEIGHT = self.TEXTURE.height
+		self.rooms = zeros(row * col, Int)
 		
-		self.X = x
-		self.Y = y
+		for i in range(len(self.rooms)):
+			self.rooms[i] = 1
 
-	def update(self, xScale, yScale):
-		self.width = self.WIDTH * xScale
-		self.height = self.HEIGHT * yScale
-		
-		self.x = self.X * xScale
-		self.y = self.Y * yScale
+		self.player = Player(row, col)
 
-class Door(Widget):
-	# Base variables
-	TEXTURE = ObjectProperty(None)
-	
-	WIDTH = NumericProperty(1.0)
-	HEIGHT = NumericProperty(1.0)
-	
-	X_UNIT = NumericProperty(1.0)
-	Y_UNIT = NumericProperty(1.0)
-	
-	X = NumericProperty(1.0)
-	Y = NumericProperty(1.0)
-	
-	# Run variables
-	state = NumericProperty(0)
-	
-	xUnit = NumericProperty(1.0)
-	yUnit = NumericProperty(1.0)
-	
-	curr_texture = ObjectProperty(None)
-	
-	x = NumericProperty(1.0)
-	y = NumericProperty(1.0)
+class Player:
+	# Player's Direction (0: North (default); 1: East; 2: South; 3:West)
+	d = NumericProperty(0)
 
-	def set_base(self, texture_dir, x, y):
-		self.TEXTURE = Image(texture_dir).texture
-		
-		self.WIDTH = self.TEXTURE.width
-		self.HEIGHT = self.TEXTURE.height
-		
-		self.X_UNIT = self.WIDTH / 2
-		self.Y_UNIT = self.HEIGHT / 1
-		
-		self.X = x
-		self.Y = y
+	# Position of player ([row, column] with [0,0] is the most north west)
+	r = NumericProperty(0)
+	c = NumericProperty(0)
+	
+	pos = ReferenceListProperty(r, c)
 
-	def is_pressed(self, x, y):
-		if x > self.x and y > self.y:
-			if x < self.x + self.xUnit and y < self.y + self.yUnit:
-				return True
-		return False
+	def __init__(self, r, c):
+		self.r = r
+		self.c = c
 
-	def change_state(self):
-		self.state += 1
-		self.state %= 2
+	def move_ahead(self):
+		if self.d == 0:
+			self.r -= 1
+		elif self.d == 1:
+			self.c += 1
+		elif self.d == 2:
+			self.r += 1
+		elif self.d == 3:
+			self.c -= 1
 	
-	def update(self, xScale, yScale):
-		self.xUnit = self.X_UNIT * xScale
-		self.yUnit = self.Y_UNIT * yScale
+	def move_right(self):
+		self.d += 1
+		self.d %= 4
 		
-		self.x = self.X * xScale
-		self.y = self.Y * yScale
+		self.move_ahead()
+	
+	def move_back(self):
+		self.d += 2
+		self.d %= 4
 		
-		self.curr_texture = self.TEXTURE.get_region(self.state * self.X_UNIT, 0, self.X_UNIT, self.Y_UNIT)
-
-class Lamp(Widget):
-	# Base variables
-	TEXTURE = ObjectProperty(None)
+		self.move_ahead()
 	
-	WIDTH = NumericProperty(1.0)
-	HEIGHT = NumericProperty(1.0)
-	
-	X_UNIT = NumericProperty(1.0)
-	Y_UNIT = NumericProperty(1.0)
-	
-	X = NumericProperty(1.0)
-	Y = NumericProperty(1.0)
-	
-	# Run variables
-	state = NumericProperty(1)
-	
-	xUnit = NumericProperty(1.0)
-	yUnit = NumericProperty(1.0)
-	
-	curr_texture = ObjectProperty(None)
-	
-	x = NumericProperty(1.0)
-	y = NumericProperty(1.0)
-
-	def set_base(self, texture_dir, x, y):
-		self.TEXTURE = Image(texture_dir).texture
+	def move_right(self):
+		self.d -= 1
+		self.d %= 4
 		
-		self.WIDTH = self.TEXTURE.width
-		self.HEIGHT = self.TEXTURE.height
-		
-		self.X_UNIT = self.WIDTH / 3
-		self.Y_UNIT = self.HEIGHT / 1
-		
-		self.X = x
-		self.Y = y
-
-	def is_pressed(self, x, y):
-		if x > self.x and y > self.y:
-			if x < self.x + self.xUnit and y < self.y + self.yUnit:
-				return True
-		return False
-
-	def change_state(self):
-		self.state += 1
-		self.state %= 3
-	
-	def update(self, xScale, yScale):
-		self.xUnit = self.X_UNIT * xScale
-		self.yUnit = self.Y_UNIT * yScale
-		
-		self.x = self.X * xScale
-		self.y = self.Y * yScale
-		
-		self.curr_texture = self.TEXTURE.get_region(self.state * self.X_UNIT, 0, self.X_UNIT, self.Y_UNIT)
-
-class Navigator(Widget):
-	# Base variables
-	TEXTURE = ObjectProperty(None)
-	
-	WIDTH = NumericProperty(1.0)
-	HEIGHT = NumericProperty(1.0)
-	
-	X_UNIT = NumericProperty(1.0)
-	Y_UNIT = NumericProperty(1.0)
-	
-	X = NumericProperty(1.0)
-	Y = NumericProperty(1.0)
-
-	# Run variables
-	angle = NumericProperty(0.0)
-	
-	xUnit = NumericProperty(1.0)
-	yUnit = NumericProperty(1.0)
-	
-	curr_texture = ObjectProperty(None)
-	
-	x = NumericProperty(1.0)
-	y = NumericProperty(1.0)
-
-	def set_base(self, texture_dir, x, y):
-		self.TEXTURE = Image(texture_dir).texture
-		
-		self.WIDTH = self.TEXTURE.width
-		self.HEIGHT = self.TEXTURE.height
-		
-		self.X_UNIT = self.WIDTH / 1
-		self.Y_UNIT = self.HEIGHT / 1
-		
-		self.X = x
-		self.Y = y
-
-	def update(self, xScale, yScale):
-		self.angle += 1.0
-		self.angle %= 360.0
-
-		self.xUnit = self.X_UNIT * xScale
-		self.yUnit = self.Y_UNIT * yScale
-		
-		self.x = self.X * xScale
-		self.y = self.Y * yScale
-		
-		self.curr_texture = self.TEXTURE.get_region(0, 0, self.X_UNIT, self.Y_UNIT)
+		self.move_ahead()

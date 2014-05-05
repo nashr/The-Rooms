@@ -22,17 +22,22 @@
 			texture: self.curr_texture
 
 <Navigator>:
-	canvas:
+	canvas.before:
+		PushMatrix:
 		Rotate:
 			angle: self.angle
 			origin: self.x + self.xUnit / 2, self.y + self.yUnit / 2
 
+	canvas:
 		Rectangle:
 			pos: self.x, self.y
 			size: self.xUnit, self.yUnit
 			texture: self.curr_texture
+	
+	canvas.after:
+		PopMatrix:
 
-<TheRoomsGame>:
+<Room>:
 	navi: navi_arrow
 	
 	back: back_arrow
@@ -47,14 +52,9 @@
 
 	canvas:
 		Rectangle:
-			size: root.size
-			texture: root.imageManager.room
-
-	Label:
-		center_x: root.center_x
-		center_y: 550.0 * root.yScale
-		font_size: root.fontSize
-		text: str(1)
+			pos: self.x, self.y
+			size: self.width, self.height
+			texture: self.TEXTURE
 
 	Door:
 		id: left_door
@@ -79,3 +79,15 @@
 	
 	Navigator:
 		id: navi_arrow
+
+<TheRoomsGame>:
+	room: room
+
+	Room:
+		id: room
+	
+	Label:
+		center_x: root.center_x
+		center_y: 550.0 * root.yScale
+		font_size: root.fontSize
+		text: str(0)
