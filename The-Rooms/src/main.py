@@ -26,7 +26,8 @@ class TheRoomsGame(Widget):
 	def __init__(self, **kwargs):
 		super(TheRoomsGame, self).__init__(**kwargs)
 
-		self.room.set_base()
+		self.menu.set_base(self)
+		self.room.set_base(self)
 
 	def take_scale(self):
 		retval = False
@@ -43,6 +44,10 @@ class TheRoomsGame(Widget):
 		
 		return retval
 	
+	def play(self):
+		self.remove_widget(self.menu)
+		self.state = 1
+	
 	def update(self, dt):
 		self.take_scale()
 		
@@ -50,15 +55,6 @@ class TheRoomsGame(Widget):
 		
 		self.menu.update(self.width, self.height, self.fontSize)
 		self.room.update(self.xScale, self.yScale)
-		
-	def on_touch_down(self, touch):
-		super(TheRoomsGame, self).on_touch_down(touch)
-	
-	def on_touch_move(self, touch):
-		super(TheRoomsGame, self).on_touch_move(touch)
-	
-	def on_touch_up(self, touch):
-		super(TheRoomsGame, self).on_touch_up(touch)
 
 # Main app
 class TheRoomsApp(App):

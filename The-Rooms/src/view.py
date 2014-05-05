@@ -158,6 +158,9 @@ class Menu(Widget):
 	centerX = NumericProperty(0.0)
 	centerY = NumericProperty(0.0)
 
+	def set_base(self, game):
+		self.game = game
+
 	def update(self, width, height, fontSize):
 		self.width = width
 		self.height = height
@@ -168,7 +171,7 @@ class Menu(Widget):
 		self.fontSize = fontSize
 	
 	def play(self):
-		print 'Halo, halo Bandung!'
+		self.game.play()
 
 class Navigator(Widget):
 	# Base variables
@@ -248,7 +251,9 @@ class Room(Widget):
 	centerLamp = ObjectProperty(None)
 	RightLamp = ObjectProperty(None)
 
-	def set_base(self):
+	def set_base(self, game):
+		self.game = game
+
 		# Get resources
 		self.imageManager = ImageManager()
 		
