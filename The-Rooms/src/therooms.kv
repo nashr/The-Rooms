@@ -21,6 +21,29 @@
 			size: self.xUnit, self.yUnit
 			texture: self.curr_texture
 
+<Menu>:
+	canvas:
+		Color:
+			rgba: 0, 0, 0, .95
+		
+		Rectangle:
+			pos: 0, 0
+			size: self.width, self.height
+	
+	Label:
+		center_x: root.centerX
+		center_y: root.height * 3 / 4
+		font_size: root.fontSize
+		text: 'The Rooms'
+
+	Button:
+		center_x: root.centerX
+		center_y: root.centerY
+		font_size: root.fontSize * 0.8
+		on_press: root.play()
+		size: root.width, root.height / 8
+		text: 'PLAY'
+
 <Navigator>:
 	canvas.before:
 		PushMatrix:
@@ -81,6 +104,7 @@
 		id: navi_arrow
 
 <TheRoomsGame>:
+	menu: btn_menu
 	room: room
 
 	Room:
@@ -91,3 +115,6 @@
 		center_y: 550.0 * root.yScale
 		font_size: root.fontSize
 		text: str(0)
+	
+	Menu:
+		id: btn_menu

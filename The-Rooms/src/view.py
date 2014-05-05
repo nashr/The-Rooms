@@ -148,6 +148,28 @@ class Lamp(Widget):
 		
 		self.curr_texture = self.TEXTURE.get_region(self.state * self.X_UNIT, 0, self.X_UNIT, self.Y_UNIT)
 
+class Menu(Widget):
+	# Run variables
+	fontSize = NumericProperty(64.0)
+
+	width = NumericProperty(1.0)
+	height = NumericProperty(1.0)
+	
+	centerX = NumericProperty(0.0)
+	centerY = NumericProperty(0.0)
+
+	def update(self, width, height, fontSize):
+		self.width = width
+		self.height = height
+		
+		self.centerX = width * 1.0 / 2
+		self.centerY = height * 1.0 / 2
+		
+		self.fontSize = fontSize
+	
+	def play(self):
+		print 'Halo, halo Bandung!'
+
 class Navigator(Widget):
 	# Base variables
 	TEXTURE = ObjectProperty(None)

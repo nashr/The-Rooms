@@ -4,7 +4,7 @@ from kivy.graphics import Callback, Color, Rectangle
 from kivy.properties import NumericProperty, ObjectProperty
 from kivy.uix.widget import Widget
 
-from view import Room
+from view import Menu, Room
 
 # Root of app's UI
 class TheRoomsGame(Widget):
@@ -19,12 +19,13 @@ class TheRoomsGame(Widget):
 	# 3 - current state (0: menu; 1: game; 2: gameover)
 	state = NumericProperty(0)
 
-	# Child widget
+	# Child widgets
+	menu = ObjectProperty(None)
 	room = ObjectProperty(None)
 	
 	def __init__(self, **kwargs):
 		super(TheRoomsGame, self).__init__(**kwargs)
-		
+
 		self.room.set_base()
 
 	def take_scale(self):
@@ -47,16 +48,17 @@ class TheRoomsGame(Widget):
 		
 		self.fontSize = 64.0 * self.yScale * 1.2
 		
+		self.menu.update(self.width, self.height, self.fontSize)
 		self.room.update(self.xScale, self.yScale)
 		
 	def on_touch_down(self, touch):
-		pass
+		super(TheRoomsGame, self).on_touch_down(touch)
 	
 	def on_touch_move(self, touch):
-		pass
+		super(TheRoomsGame, self).on_touch_move(touch)
 	
 	def on_touch_up(self, touch):
-		self.room.on_touch_up(touch)
+		super(TheRoomsGame, self).on_touch_up(touch)
 
 # Main app
 class TheRoomsApp(App):
