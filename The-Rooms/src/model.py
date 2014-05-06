@@ -53,6 +53,9 @@ class Maze:
 				retval[(3 - self.player.d) % 4] = True
 		
 		return retval
+	
+	def generate_rooms(self):
+		self.player.set_pos(self.row - 1, self.col - 1)
 
 class Player:
 	# Player's Direction (0: North (default); 1: East; 2: South; 3:West)
@@ -67,6 +70,8 @@ class Player:
 	def __init__(self, r, c):
 		self.r = r
 		self.c = c
+		
+		self.d = 0
 
 	def set_pos(self, r, c):
 		self.r = r

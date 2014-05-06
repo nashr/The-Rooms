@@ -316,15 +316,20 @@ class Room(Widget):
 		
 		self.navi.update(xScale, yScale)
 		
-		self.back.update(xScale, yScale)
+		if self.roomProperty[0]:
+			self.centerDoor.update(xScale, yScale)
+			self.centerLamp.update(xScale, yScale)
 		
-		self.leftDoor.update(xScale, yScale)
-		self.centerDoor.update(xScale, yScale)
-		self.rightDoor.update(xScale, yScale)
+		if self.roomProperty[1]:
+			self.rightDoor.update(xScale, yScale)
+			self.rightLamp.update(xScale, yScale)
 		
-		self.leftLamp.update(xScale, yScale)
-		self.centerLamp.update(xScale, yScale)
-		self.rightLamp.update(xScale, yScale)
+		if self.roomProperty[2]:
+			self.back.update(xScale, yScale)
+		
+		if self.roomProperty[1]:
+			self.leftDoor.update(xScale, yScale)
+			self.leftLamp.update(xScale, yScale)
 
 	def on_touch_down(self, touch):
 		pass

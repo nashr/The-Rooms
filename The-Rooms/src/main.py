@@ -52,6 +52,9 @@ class TheRoomsGame(Widget):
 	def play(self):
 		self.remove_widget(self.menu)
 		self.state = 1
+		
+		self.maze.generate_rooms()
+		self.room.set_room(self.maze.load_curr_room_property())
 	
 	def update(self, dt):
 		self.take_scale()
