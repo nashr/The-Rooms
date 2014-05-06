@@ -155,6 +155,7 @@ class Lamp(Widget):
 		self.curr_texture = self.TEXTURE.get_region(self.state * self.X_UNIT, 0, self.X_UNIT, self.Y_UNIT)
 
 class Menu(Widget):
+	kohe = ObjectProperty(None)
 	# Run variables
 	fontSize = NumericProperty(64.0)
 

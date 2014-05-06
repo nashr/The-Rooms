@@ -1,3 +1,4 @@
+from kivy.animation import Animation
 from kivy.app import App
 from kivy.clock import Clock
 from kivy.graphics import Callback, Color, Rectangle
@@ -27,12 +28,28 @@ class TheRoomsGame(Widget):
 	def __init__(self, **kwargs):
 		super(TheRoomsGame, self).__init__(**kwargs)
 
+		# Define transitions
+		# 1 - Out once
+		self.transOut = Animation(opacity = 0)
+		self.transOut.bind(on_complete = self.remove)
+
+		# 2 - Inter rooms
+		self.transRoom = Animation(opacity = 0, d = 1.5) + Animation(opacity = 1)
+		self.transRoom.bind(on_progress = self.prepare_room)
+		
 		self.menu.set_base(self)
 		self.room.set_base(self)
 		
 		self.maze = Maze(4, 6)
 		
 		self.room.set_room(self.maze.load_curr_room_property())
+
+	def remove(self, widget, value):
+		self.remove_widget(widget)
+
+	def prepare_room(self, widget, value, progress):
+		if progress > 0.5 and progress < 0.6:
+			self.room.set_room(self.maze.load_curr_room_property())
 
 	def take_scale(self):
 		retval = False
@@ -50,12 +67,14 @@ class TheRoomsGame(Widget):
 		return retval
 	
 	def play(self):
-		self.remove_widget(self.menu)
+		self.transOut.start(self.menu)
+
 		self.state = 1
 		
 		self.maze.generate_rooms()
-		self.room.set_room(self.maze.load_curr_room_property())
-	
+		
+		self.transRoom.start(self.room)
+
 	## 
 	#  @brief intermethod between input on widget with its logic structure
 	#  
@@ -64,7 +83,7 @@ class TheRoomsGame(Widget):
 	#  
 	def go(self, code):
 		self.maze.change_room(code)
-		self.room.set_room(self.maze.load_curr_room_property())
+		self.transRoom.start(self.room)
 
 	def update(self, dt):
 		self.take_scale()
