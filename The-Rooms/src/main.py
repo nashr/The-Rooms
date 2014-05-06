@@ -4,6 +4,7 @@ from kivy.graphics import Callback, Color, Rectangle
 from kivy.properties import NumericProperty, ObjectProperty
 from kivy.uix.widget import Widget
 
+from model import Maze
 from view import Menu, Room
 
 # Root of app's UI
@@ -28,6 +29,10 @@ class TheRoomsGame(Widget):
 
 		self.menu.set_base(self)
 		self.room.set_base(self)
+		
+		self.maze = Maze(4, 6)
+		
+		self.room.set_room(self.maze.load_curr_room_property())
 
 	def take_scale(self):
 		retval = False

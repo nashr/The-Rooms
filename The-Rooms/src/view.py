@@ -277,6 +277,38 @@ class Room(Widget):
 		self.leftLamp.set_base(self.imageManager.leftlampdir, 80.0, 437.5)
 		self.centerLamp.set_base(self.imageManager.centerlampdir, 375.0, 410.0)
 		self.rightLamp.set_base(self.imageManager.rightlampdir, 668.0, 437.5)
+		
+		self.roomProperty = [True, True, True, True]
+
+	def set_room(self, property):
+		for i in range(4):
+			if self.roomProperty[i] != property[i]:
+				if property[i]:
+					if i == 0:
+						self.add_widget(self.centerDoor)
+						self.add_widget(self.centerLamp)
+					elif i == 1:
+						self.add_widget(self.rightDoor)
+						self.add_widget(self.rightLamp)
+					elif i == 2:
+						self.add_widget(self.back)
+					else: # i == 3
+						self.add_widget(self.leftDoor)
+						self.add_widget(self.leftLamp)
+				else:
+					if i == 0:
+						self.remove_widget(self.centerDoor)
+						self.remove_widget(self.centerLamp)
+					elif i == 1:
+						self.remove_widget(self.rightDoor)
+						self.remove_widget(self.rightLamp)
+					elif i == 2:
+						self.remove_widget(self.back)
+					else: # i == 3
+						self.remove_widget(self.leftDoor)
+						self.remove_widget(self.leftLamp)
+
+				self.roomProperty[i] = property[i]
 
 	def update(self, xScale, yScale):
 		self.width = self.WIDTH * xScale

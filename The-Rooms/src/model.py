@@ -1,8 +1,6 @@
 from kivy.properties import NumericProperty, ReferenceListProperty
 from kivy.vector import Vector
 
-from Numeric import *
-
 class Maze:
 	# Dimension of maze (row x column)
 	row = NumericProperty(0)
@@ -12,12 +10,49 @@ class Maze:
 		self.row = row
 		self.col = col
 		
-		self.rooms = zeros(row * col, Int)
+		self.rooms = []
 		
-		for i in range(len(self.rooms)):
-			self.rooms[i] = 1
+		for i in range(row * col):
+			self.rooms.append(1)
 
-		self.player = Player(row, col)
+		self.player = Player(-1, -1)
+
+	def load_curr_room_property(self):
+		# Is there a door (at) [ahead, right, back, left]
+		retval = [False, False, False, False]
+
+		if self.player.r == -1:
+			pass
+		elif self.player.r == 0:
+			retval[(2 - self.player.d) % 4] = True
+			if self.player.c == 0:
+				retval[(1 - self.player.d) % 4] = True
+			elif self.player.c == self.col - 1:
+				retval[(3 - self.player.d) % 4] = True
+			else:
+				retval[(1 - self.player.d) % 4] = True
+				retval[(3 - self.player.d) % 4] = True
+		elif self.player.r == self.row - 1:
+			retval[(0 - self.player.d) % 4] = True
+			if self.player.c == 0:
+				retval[(1 - self.player.d) % 4] = True
+			elif self.player.c == self.col - 1:
+				retval[(3 - self.player.d) % 4] = True
+			else:
+				retval[(1 - self.player.d) % 4] = True
+				retval[(3 - self.player.d) % 4] = True
+		else:
+			retval[(0 - self.player.d) % 4] = True
+			retval[(2 - self.player.d) % 4] = True
+			if self.player.c == 0:
+				retval[(1 - self.player.d) % 4] = True
+			elif self.player.c == self.col - 1:
+				retval[(3 - self.player.d) % 4] = True
+			else:
+				retval[(1 - self.player.d) % 4] = True
+				retval[(3 - self.player.d) % 4] = True
+		
+		return retval
 
 class Player:
 	# Player's Direction (0: North (default); 1: East; 2: South; 3:West)
@@ -30,6 +65,10 @@ class Player:
 	pos = ReferenceListProperty(r, c)
 
 	def __init__(self, r, c):
+		self.r = r
+		self.c = c
+
+	def set_pos(self, r, c):
 		self.r = r
 		self.c = c
 
