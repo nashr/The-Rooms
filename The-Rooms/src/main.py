@@ -44,10 +44,10 @@ class TheRoomsGame(Widget):
 		
 		self.room.set_room(self.maze.load_curr_room_property())
 
-	def remove(self, widget, value):
-		self.remove_widget(widget)
+	def remove(self, anim, widget):
+		widget.parent.remove_widget(widget)
 
-	def prepare_room(self, widget, value, progress):
+	def prepare_room(self, anim, widget, progress):
 		if progress > 0.5 and progress < 0.6:
 			self.room.set_room(self.maze.load_curr_room_property())
 
