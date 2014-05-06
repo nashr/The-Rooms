@@ -56,6 +56,19 @@ class Maze:
 	
 	def generate_rooms(self):
 		self.player.set_pos(self.row - 1, self.col - 1)
+		print str(self.player.r) + ' ' + str(self.player.c)
+	
+	def change_room(self, code):
+		if code == 0:
+			self.player.move_ahead()
+		elif code == 1:
+			self.player.move_right()
+		elif code == 2:
+			self.player.move_back()
+		else: # code == 3
+			self.player.move_left()
+		
+		print str(self.player.r) + ' ' + str(self.player.c)
 
 class Player:
 	# Player's Direction (0: North (default); 1: East; 2: South; 3:West)
@@ -99,7 +112,7 @@ class Player:
 		
 		self.move_ahead()
 	
-	def move_right(self):
+	def move_left(self):
 		self.d -= 1
 		self.d %= 4
 		

@@ -56,6 +56,16 @@ class TheRoomsGame(Widget):
 		self.maze.generate_rooms()
 		self.room.set_room(self.maze.load_curr_room_property())
 	
+	## 
+	#  @brief intermethod between input on widget with its logic structure
+	#  
+	#  @param [in] code move direction (0: ahead; 1: right; 2: back; 3: left)
+	#  @return none
+	#  
+	def go(self, code):
+		self.maze.change_room(code)
+		self.room.set_room(self.maze.load_curr_room_property())
+
 	def update(self, dt):
 		self.take_scale()
 		

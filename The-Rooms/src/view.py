@@ -31,6 +31,12 @@ class Back(Widget):
 		self.X = x
 		self.Y = y
 
+	def is_pressed(self, x, y):
+		if x > self.x and y > self.y:
+			if x < self.x + self.width and y < self.y + self.height:
+				return True
+		return False
+
 	def update(self, xScale, yScale):
 		self.width = self.WIDTH * xScale
 		self.height = self.HEIGHT * yScale
@@ -327,7 +333,7 @@ class Room(Widget):
 		if self.roomProperty[2]:
 			self.back.update(xScale, yScale)
 		
-		if self.roomProperty[1]:
+		if self.roomProperty[3]:
 			self.leftDoor.update(xScale, yScale)
 			self.leftLamp.update(xScale, yScale)
 
@@ -338,14 +344,20 @@ class Room(Widget):
 		pass
 	
 	def on_touch_up(self, touch):
-		if self.leftDoor.is_pressed(touch.x, touch.y):
-			self.leftDoor.change_state()
-
 		if self.centerDoor.is_pressed(touch.x, touch.y):
 			self.centerDoor.change_state()
+			self.game.go(0)
 		
 		if self.rightDoor.is_pressed(touch.x, touch.y):
 			self.rightDoor.change_state()
+			self.game.go(1)
+
+		if self.back.is_pressed(touch.x, touch.y):
+			self.game.go(2)
+
+		if self.leftDoor.is_pressed(touch.x, touch.y):
+			self.leftDoor.change_state()
+			self.game.go(3)
 
 		if self.leftLamp.is_pressed(touch.x, touch.y):
 			self.leftLamp.change_state()
