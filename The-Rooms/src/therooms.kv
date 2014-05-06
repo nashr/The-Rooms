@@ -22,7 +22,6 @@
 			texture: self.curr_texture
 
 <Menu>:
-	kohe: kohe
 	canvas:
 		Color:
 			rgba: 0, 0, 0, .75
@@ -44,7 +43,6 @@
 		text: 'The Rooms'
 
 	Button:
-		id: kohe
 		center_x: root.centerX
 		center_y: root.centerY
 		font_size: root.fontSize * 0.8
@@ -87,6 +85,12 @@
 			size: self.width, self.height
 			texture: self.TEXTURE
 
+	Label:
+		center_x: root.center_x
+		center_y: root.height - root.height / 16
+		font_size: root.fontSize
+		text: str(0)
+
 	Door:
 		id: left_door
 	
@@ -117,12 +121,6 @@
 
 	Room:
 		id: room
-	
-	Label:
-		center_x: root.center_x
-		center_y: 550.0 * root.yScale
-		font_size: root.fontSize
-		text: str(0)
-	
+
 	Menu:
 		id: btn_menu

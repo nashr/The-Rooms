@@ -155,7 +155,6 @@ class Lamp(Widget):
 		self.curr_texture = self.TEXTURE.get_region(self.state * self.X_UNIT, 0, self.X_UNIT, self.Y_UNIT)
 
 class Menu(Widget):
-	kohe = ObjectProperty(None)
 	# Run variables
 	fontSize = NumericProperty(64.0)
 
@@ -245,6 +244,8 @@ class Room(Widget):
 	x = NumericProperty(1.0)
 	y = NumericProperty(1.0)
 
+	fontSize = NumericProperty(64.0)
+
 	# Children (by default)
 	navi = ObjectProperty(None)
 	
@@ -317,7 +318,7 @@ class Room(Widget):
 
 				self.roomProperty[i] = property[i]
 
-	def update(self, xScale, yScale):
+	def update(self, xScale, yScale, fontSize):
 		self.width = self.WIDTH * xScale
 		self.height = self.HEIGHT * yScale
 		
@@ -337,6 +338,8 @@ class Room(Widget):
 		if self.roomProperty[3]:
 			self.leftDoor.update(xScale, yScale)
 			self.leftLamp.update(xScale, yScale)
+		
+		self.fontSize = fontSize
 
 	def on_touch_down(self, touch):
 		if self.centerDoor.is_pressed(touch.x, touch.y) and self.roomProperty[0]:
@@ -347,15 +350,15 @@ class Room(Widget):
 
 		if self.leftDoor.is_pressed(touch.x, touch.y) and self.roomProperty[3]:
 			self.leftDoor.change_state()
-	
-		if self.leftLamp.is_pressed(touch.x, touch.y) and self.roomProperty[0]:
-			self.leftLamp.change_state()
 
-		if self.centerLamp.is_pressed(touch.x, touch.y) and self.roomProperty[1]:
+		if self.centerLamp.is_pressed(touch.x, touch.y) and self.roomProperty[0]:
 			self.centerLamp.change_state()
 		
-		if self.rightLamp.is_pressed(touch.x, touch.y) and self.roomProperty[3]:
+		if self.rightLamp.is_pressed(touch.x, touch.y) and self.roomProperty[1]:
 			self.rightLamp.change_state()
+		
+		if self.leftLamp.is_pressed(touch.x, touch.y) and self.roomProperty[3]:
+			self.leftLamp.change_state()
 
 	def on_touch_move(self, touch):
 		pass

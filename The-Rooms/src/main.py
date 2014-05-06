@@ -91,7 +91,7 @@ class TheRoomsGame(Widget):
 		self.fontSize = 64.0 * self.yScale * 1.2
 		
 		self.menu.update(self.width, self.height, self.fontSize)
-		self.room.update(self.xScale, self.yScale)
+		self.room.update(self.xScale, self.yScale, self.fontSize)
 
 # Main app
 class TheRoomsApp(App):
