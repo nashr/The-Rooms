@@ -24,12 +24,18 @@
 <Menu>:
 	canvas:
 		Color:
-			rgba: 0, 0, 0, .95
+			rgba: 0, 0, 0, .75
 		
 		Rectangle:
 			pos: 0, 0
 			size: self.width, self.height
-	
+	Button:
+		background_color: 1, 1, 1, 0
+		x: root.width / 32
+		center_y: root.height * 15 / 16
+		font_size: root.fontSize * 0.4
+		text: 'Hi, Player!'
+
 	Label:
 		center_x: root.centerX
 		center_y: root.height * 3 / 4
