@@ -338,8 +338,24 @@ class Room(Widget):
 			self.leftLamp.update(xScale, yScale)
 
 	def on_touch_down(self, touch):
-		pass
+		if self.centerDoor.is_pressed(touch.x, touch.y):
+			self.centerDoor.change_state()
+		
+		if self.rightDoor.is_pressed(touch.x, touch.y):
+			self.rightDoor.change_state()
+
+		if self.leftDoor.is_pressed(touch.x, touch.y):
+			self.leftDoor.change_state()
 	
+		if self.leftLamp.is_pressed(touch.x, touch.y):
+			self.leftLamp.change_state()
+
+		if self.centerLamp.is_pressed(touch.x, touch.y):
+			self.centerLamp.change_state()
+		
+		if self.rightLamp.is_pressed(touch.x, touch.y):
+			self.rightLamp.change_state()
+
 	def on_touch_move(self, touch):
 		pass
 	
@@ -358,12 +374,3 @@ class Room(Widget):
 		if self.leftDoor.is_pressed(touch.x, touch.y):
 			self.leftDoor.change_state()
 			self.game.go(3)
-
-		if self.leftLamp.is_pressed(touch.x, touch.y):
-			self.leftLamp.change_state()
-
-		if self.centerLamp.is_pressed(touch.x, touch.y):
-			self.centerLamp.change_state()
-		
-		if self.rightLamp.is_pressed(touch.x, touch.y):
-			self.rightLamp.change_state()
