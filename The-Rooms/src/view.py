@@ -359,26 +359,26 @@ class Room(Widget):
 		self.fontSize = fontSize
 
 	def on_touch_down(self, touch):
-		if self.centerDoor.is_pressed(touch.x, touch.y) and self.roomProperty[0]:
+		if self.centerDoor.is_pressed(touch.x, touch.y) and self.roomProperty[0] > -1:
 			self.centerDoor.change_state()
 		
-		if self.rightDoor.is_pressed(touch.x, touch.y) and self.roomProperty[1]:
+		if self.rightDoor.is_pressed(touch.x, touch.y) and self.roomProperty[1] > -1:
 			self.rightDoor.change_state()
 
-		if self.leftDoor.is_pressed(touch.x, touch.y) and self.roomProperty[3]:
+		if self.leftDoor.is_pressed(touch.x, touch.y) and self.roomProperty[3] > -1:
 			self.leftDoor.change_state()
 
-		if self.centerLamp.is_pressed(touch.x, touch.y) and self.roomProperty[0]:
+		if self.centerLamp.is_pressed(touch.x, touch.y) and self.roomProperty[0] > -1:
 			self.centerLamp.change_state()
 			self.roomProperty[0] = self.centerLamp.state
 			self.game.change_lamp_state(0, self.centerLamp.state)
 		
-		if self.rightLamp.is_pressed(touch.x, touch.y) and self.roomProperty[1]:
+		if self.rightLamp.is_pressed(touch.x, touch.y) and self.roomProperty[1] > -1:
 			self.rightLamp.change_state()
 			self.roomProperty[1] = self.rightLamp.state
 			self.game.change_lamp_state(1, self.rightLamp.state)
 		
-		if self.leftLamp.is_pressed(touch.x, touch.y) and self.roomProperty[3]:
+		if self.leftLamp.is_pressed(touch.x, touch.y) and self.roomProperty[3] > -1:
 			self.leftLamp.change_state()
 			self.roomProperty[3] = self.leftLamp.state
 			self.game.change_lamp_state(3, self.leftLamp.state)
@@ -387,17 +387,17 @@ class Room(Widget):
 		pass
 	
 	def on_touch_up(self, touch):
-		if self.centerDoor.is_pressed(touch.x, touch.y) and self.roomProperty[0]:
+		if self.centerDoor.is_pressed(touch.x, touch.y) and self.roomProperty[0] > -1:
 			self.centerDoor.change_state()
 			self.game.go(0)
 		
-		if self.rightDoor.is_pressed(touch.x, touch.y) and self.roomProperty[1]:
+		if self.rightDoor.is_pressed(touch.x, touch.y) and self.roomProperty[1] > -1:
 			self.rightDoor.change_state()
 			self.game.go(1)
 
-		if self.back.is_pressed(touch.x, touch.y) and self.roomProperty[2]:
+		if self.back.is_pressed(touch.x, touch.y) and self.roomProperty[2] > -1:
 			self.game.go(2)
 
-		if self.leftDoor.is_pressed(touch.x, touch.y) and self.roomProperty[3]:
+		if self.leftDoor.is_pressed(touch.x, touch.y) and self.roomProperty[3] > -1:
 			self.leftDoor.change_state()
 			self.game.go(3)
