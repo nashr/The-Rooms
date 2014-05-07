@@ -286,24 +286,32 @@ class Room(Widget):
 		self.centerLamp.set_base(self.imageManager.centerlampdir, 375.0, 410.0)
 		self.rightLamp.set_base(self.imageManager.rightlampdir, 668.0, 437.5)
 		
-		self.roomProperty = [True, True, True, True]
+		self.roomProperty = [1, 1, 1, 1]
 
 	def set_room(self, property):
+		print self.roomProperty
+		print property
 		for i in range(4):
 			if self.roomProperty[i] != property[i]:
-				if property[i]:
+				if self.roomProperty[i] == -1:
 					if i == 0:
 						self.add_widget(self.centerDoor)
 						self.add_widget(self.centerLamp)
+
+						self.centerLamp.state = property[i]
 					elif i == 1:
 						self.add_widget(self.rightDoor)
 						self.add_widget(self.rightLamp)
+
+						self.rightLamp.state = property[i]
 					elif i == 2:
 						self.add_widget(self.back)
 					else: # i == 3
 						self.add_widget(self.leftDoor)
 						self.add_widget(self.leftLamp)
-				else:
+
+						self.leftLamp.state = property[i]
+				elif property[i] == -1:
 					if i == 0:
 						self.remove_widget(self.centerDoor)
 						self.remove_widget(self.centerLamp)
@@ -315,6 +323,15 @@ class Room(Widget):
 					else: # i == 3
 						self.remove_widget(self.leftDoor)
 						self.remove_widget(self.leftLamp)
+				else:
+					if i == 0:
+						self.centerLamp.state = property[i]
+					elif i == 1:
+						self.rightLamp.state = property[i]
+					elif i == 2:
+						pass
+					else: # i == 3
+						self.leftLamp.state = property[i]
 
 				self.roomProperty[i] = property[i]
 
@@ -324,18 +341,18 @@ class Room(Widget):
 		
 		self.navi.update(xScale, yScale)
 		
-		if self.roomProperty[0]:
+		if self.roomProperty[0] > -1:
 			self.centerDoor.update(xScale, yScale)
 			self.centerLamp.update(xScale, yScale)
 		
-		if self.roomProperty[1]:
+		if self.roomProperty[1] > -1:
 			self.rightDoor.update(xScale, yScale)
 			self.rightLamp.update(xScale, yScale)
 		
-		if self.roomProperty[2]:
+		if self.roomProperty[2] > -1:
 			self.back.update(xScale, yScale)
 		
-		if self.roomProperty[3]:
+		if self.roomProperty[3] > -1:
 			self.leftDoor.update(xScale, yScale)
 			self.leftLamp.update(xScale, yScale)
 		
@@ -353,12 +370,15 @@ class Room(Widget):
 
 		if self.centerLamp.is_pressed(touch.x, touch.y) and self.roomProperty[0]:
 			self.centerLamp.change_state()
+			self.roomProperty[0] = self.centerLamp.state
 		
 		if self.rightLamp.is_pressed(touch.x, touch.y) and self.roomProperty[1]:
 			self.rightLamp.change_state()
+			self.roomProperty[1] = self.rightLamp.state
 		
 		if self.leftLamp.is_pressed(touch.x, touch.y) and self.roomProperty[3]:
 			self.leftLamp.change_state()
+			self.roomProperty[3] = self.leftLamp.state
 
 	def on_touch_move(self, touch):
 		pass

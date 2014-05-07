@@ -48,7 +48,7 @@ class TheRoomsGame(Widget):
 		widget.parent.remove_widget(widget)
 
 	def prepare_room(self, anim, widget, progress):
-		if progress > 0.5 and progress < 0.6:
+		if progress > 0.5 and progress < 0.52:
 			self.room.set_room(self.maze.load_curr_room_property())
 
 	def take_scale(self):
