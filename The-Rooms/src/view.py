@@ -371,14 +371,17 @@ class Room(Widget):
 		if self.centerLamp.is_pressed(touch.x, touch.y) and self.roomProperty[0]:
 			self.centerLamp.change_state()
 			self.roomProperty[0] = self.centerLamp.state
+			self.game.change_lamp_state(0, self.centerLamp.state)
 		
 		if self.rightLamp.is_pressed(touch.x, touch.y) and self.roomProperty[1]:
 			self.rightLamp.change_state()
 			self.roomProperty[1] = self.rightLamp.state
+			self.game.change_lamp_state(1, self.rightLamp.state)
 		
 		if self.leftLamp.is_pressed(touch.x, touch.y) and self.roomProperty[3]:
 			self.leftLamp.change_state()
 			self.roomProperty[3] = self.leftLamp.state
+			self.game.change_lamp_state(3, self.leftLamp.state)
 
 	def on_touch_move(self, touch):
 		pass

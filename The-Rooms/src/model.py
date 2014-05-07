@@ -33,17 +33,17 @@ class Maze:
 			pass
 		else: # In game context
 			if self.player.r == 0: # The most up rooms
-				room_idx = (self.player.r + 1)* self.row + self.player.c
+				room_idx = (self.player.r + 1) * self.row + self.player.c
 				retval[(2 - self.player.d) % 4] = self.lights[room_idx]
 			elif self.player.r == self.row - 1: # The most down rooms
-				room_idx = (self.player.r - 1)* self.row + self.player.c
+				room_idx = (self.player.r - 1) * self.row + self.player.c
 				retval[(0 - self.player.d) % 4] = self.lights[room_idx]
 			else: # Middle row rooms
 				# Head door
-				room_idx = (self.player.r - 1)* self.row + self.player.c
+				room_idx = (self.player.r - 1) * self.row + self.player.c
 				retval[(0 - self.player.d) % 4] = self.lights[room_idx]
 				# Back door
-				room_idx = (self.player.r + 1)* self.row + self.player.c
+				room_idx = (self.player.r + 1) * self.row + self.player.c
 				retval[(2 - self.player.d) % 4] = self.lights[room_idx]
 			
 			if self.player.c == 0: # The most left rooms
@@ -77,6 +77,47 @@ class Maze:
 			self.player.move_left()
 		
 		print str(self.player.r) + ' ' + str(self.player.c)
+	
+	def change_lamp(self, code, state):
+		room_idx = 0
+		if code == 0:
+			if self.player.d == 0:
+				room_idx = (self.player.r - 1) * self.row + self.player.c
+			elif self.player.d == 1:
+				room_idx = self.player.r * self.row + (self.player.c + 1)
+			elif self.player.d == 2:
+				room_idx = (self.player.r + 1) * self.row + self.player.c
+			else: # d == 3
+				room_idx = self.player.r * self.row + (self.player.c - 1)
+		elif code == 1:
+			if self.player.d == 0:
+				room_idx = self.player.r * self.row + (self.player.c + 1)
+			elif self.player.d == 1:
+				room_idx = (self.player.r + 1) * self.row + self.player.c
+			elif self.player.d == 2:
+				room_idx = self.player.r * self.row + (self.player.c - 1)
+			else: # d == 3
+				room_idx = (self.player.r - 1) * self.row + self.player.c
+		elif code == 2:
+			if self.player.d == 0:
+				room_idx = (self.player.r + 1) * self.row + self.player.c
+			elif self.player.d == 1:
+				room_idx = self.player.r * self.row + (self.player.c - 1)
+			elif self.player.d == 2:
+				room_idx = (self.player.r - 1) * self.row + self.player.c
+			else: # d == 3
+				room_idx = self.player.r * self.row + (self.player.c + 1)
+		else: # code == 3
+			if self.player.d == 0:
+				room_idx = self.player.r * self.row + (self.player.c - 1)
+			elif self.player.d == 1:
+				room_idx = (self.player.r - 1) * self.row + self.player.c
+			elif self.player.d == 2:
+				room_idx = self.player.r * self.row + (self.player.c + 1)
+			else: # d == 3
+				room_idx = (self.player.r + 1) * self.row + self.player.c
+		
+		self.lights[room_idx] = state
 
 class Player:
 	# Player's Direction (0: North (default); 1: East; 2: South; 3:West)
