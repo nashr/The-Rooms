@@ -67,29 +67,40 @@
 		PopMatrix:
 
 <Room>:
-	navi: navi_arrow
+	nBomb: lbl_nbomb.__self__
+
+	navi: navi_arrow.__self__
 	
-	back: back_arrow
+	back: back_arrow.__self__
 
-	leftDoor: left_door
-	centerDoor: center_door
-	rightDoor: right_door
+	leftDoor: left_door.__self__
+	centerDoor: center_door.__self__
+	rightDoor: right_door.__self__
 
-	leftLamp: left_lamp
-	centerLamp: center_lamp
-	rightLamp: right_lamp
+	leftLamp: left_lamp.__self__
+	centerLamp: center_lamp.__self__
+	rightLamp: right_lamp.__self__
 
 	canvas:
 		Rectangle:
-			pos: self.x, self.y
+			pos: self.X, self.Y
 			size: self.width, self.height
 			texture: self.TEXTURE
 
 	Label:
+		id: lbl_nbomb
 		center_x: root.center_x
 		center_y: root.height - root.height / 16
 		font_size: root.fontSize
-		text: str(0)
+		text: str(root.nBomb)
+
+	Button:
+		opacity: .5
+		y: root.height - root.height / 14
+		font_size: root.fontSize * 0.5
+		size: root.width / 8, root.height / 14
+		text: 'Back'
+		on_press: root.home(self)
 
 	Door:
 		id: left_door
@@ -116,8 +127,8 @@
 		id: navi_arrow
 
 <TheRoomsGame>:
-	menu: btn_menu
-	room: room
+	menu: btn_menu.__self__
+	room: room.__self__
 
 	Room:
 		id: room

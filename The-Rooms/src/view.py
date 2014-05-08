@@ -1,3 +1,4 @@
+from kivy.animation import Animation
 from kivy.core.image import Image
 from kivy.core.window import Window
 from kivy.properties import NumericProperty, ObjectProperty, StringProperty
@@ -234,19 +235,20 @@ class Room(Widget):
 	WIDTH = NumericProperty(1.0)
 	HEIGHT = NumericProperty(1.0)
 	
-	X = NumericProperty(1.0)
-	Y = NumericProperty(1.0)
+	X = NumericProperty(0.0)
+	Y = NumericProperty(0.0)
 
 	# Run variables
 	width = NumericProperty(1.0)
 	height = NumericProperty(1.0)
-	
-	x = NumericProperty(1.0)
-	y = NumericProperty(1.0)
 
 	fontSize = NumericProperty(64.0)
 
+	nBomb = NumericProperty(0)
+
 	# Children (by default)
+	nBomb = ObjectProperty(None)
+
 	navi = ObjectProperty(None)
 	
 	back = ObjectProperty(None)
@@ -286,12 +288,11 @@ class Room(Widget):
 		self.centerLamp.set_base(self.imageManager.centerlampdir, 375.0, 410.0)
 		self.rightLamp.set_base(self.imageManager.rightlampdir, 668.0, 437.5)
 		
-		self.roomProperty = [1, 1, 1, 1]
+		# door ahead, door right, door back, door left, number, arrow
+		self.roomProperty = [1, 1, 1, 1, 0, 0]
 
 	def set_room(self, property):
-		print self.roomProperty
-		print property
-		for i in range(4):
+		for i in range(6):
 			if self.roomProperty[i] != property[i]:
 				if self.roomProperty[i] == -1:
 					if i == 0:
@@ -306,11 +307,15 @@ class Room(Widget):
 						self.rightLamp.state = property[i]
 					elif i == 2:
 						self.add_widget(self.back)
-					else: # i == 3
+					elif i == 3:
 						self.add_widget(self.leftDoor)
 						self.add_widget(self.leftLamp)
 
 						self.leftLamp.state = property[i]
+					elif i == 4:
+						self.add_widget(self.nBomb)
+					else: # i == 5
+						self.add_widget(self.navi)
 				elif property[i] == -1:
 					if i == 0:
 						self.remove_widget(self.centerDoor)
@@ -320,9 +325,13 @@ class Room(Widget):
 						self.remove_widget(self.rightLamp)
 					elif i == 2:
 						self.remove_widget(self.back)
-					else: # i == 3
+					elif i == 3:
 						self.remove_widget(self.leftDoor)
 						self.remove_widget(self.leftLamp)
+					elif i == 4:
+						self.remove_widget(self.nBomb)
+					else: # i == 5
+						self.remove_widget(self.navi)
 				else:
 					if i == 0:
 						self.centerLamp.state = property[i]
@@ -330,8 +339,12 @@ class Room(Widget):
 						self.rightLamp.state = property[i]
 					elif i == 2:
 						pass
-					else: # i == 3
+					elif i == 3:
 						self.leftLamp.state = property[i]
+					elif i == 4:
+						pass
+					else: # i == 5
+						pass
 
 				self.roomProperty[i] = property[i]
 
@@ -358,7 +371,15 @@ class Room(Widget):
 		
 		self.fontSize = fontSize
 
+	def home(self, widget):
+		anim = Animation(opacity = 1, d = 0.5) + Animation(opacity = 0.5, d = 0.5)
+		anim.start(widget)
+		
+		self.game.home()
+
 	def on_touch_down(self, touch):
+		super(Room, self).on_touch_down(touch)
+
 		if self.centerDoor.is_pressed(touch.x, touch.y) and self.roomProperty[0] > -1:
 			self.centerDoor.change_state()
 		
@@ -384,9 +405,11 @@ class Room(Widget):
 			self.game.change_lamp_state(3, self.leftLamp.state)
 
 	def on_touch_move(self, touch):
-		pass
+		super(Room, self).on_touch_move(touch)
 	
 	def on_touch_up(self, touch):
+		super(Room, self).on_touch_up(touch)
+
 		if self.centerDoor.is_pressed(touch.x, touch.y) and self.roomProperty[0] > -1:
 			self.centerDoor.change_state()
 			self.game.go(0)

@@ -26,6 +26,7 @@ class TheRoomsGame(Widget):
 	room = ObjectProperty(None)
 	
 	def __init__(self, **kwargs):
+		print 'main.py\t: __init__()'
 		super(TheRoomsGame, self).__init__(**kwargs)
 
 		# Define transitions
@@ -36,6 +37,8 @@ class TheRoomsGame(Widget):
 		# 2 - Inter rooms
 		self.transRoom = Animation(opacity = 0, d = 1.5) + Animation(opacity = 1)
 		self.transRoom.bind(on_progress = self.prepare_room)
+		
+		self.state = 0
 		
 		self.menu.set_base(self)
 		self.room.set_base(self)
@@ -74,6 +77,9 @@ class TheRoomsGame(Widget):
 		self.maze.generate_rooms()
 		
 		self.transRoom.start(self.room)
+	
+	def home(self):
+		print 'Amitabachan'
 
 	## 
 	#  @brief intermethod between input on widget with its logic structure
@@ -93,7 +99,9 @@ class TheRoomsGame(Widget):
 		
 		self.fontSize = 64.0 * self.yScale * 1.2
 		
-		self.menu.update(self.width, self.height, self.fontSize)
+		if self.state == 0:
+			self.menu.update(self.width, self.height, self.fontSize)
+		
 		self.room.update(self.xScale, self.yScale, self.fontSize)
 
 # Main app
