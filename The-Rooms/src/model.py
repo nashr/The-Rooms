@@ -25,8 +25,10 @@ class Maze:
 		self.player = Player(-1, -1)
 
 	def load_curr_room_property(self):
-		# Is there a door (at) [ahead, right, back, left] and [number of bombs nearby, plant direction]
+		# Is there a door (at) [ahead, right, back, left]
 		# Code: -1: no door; 0: door with green light; 1: door with grey light; 2: door with red light
+		# and [number of bombs nearby, plant direction]
+		# Code: -1: data not available; 0..n: number of bombs or direction of arrow
 		retval = [-1, -1, -1, -1, -1, -1]
 
 		if self.player.r == -1: # Only in menu context
@@ -59,6 +61,9 @@ class Maze:
 				# Left door
 				room_idx = self.player.r * self.row + (self.player.c - 1)
 				retval[(3 - self.player.d) % 4] = self.lights[room_idx]
+			
+			retval[4] = 0
+			retval[5] = 45
 
 		return retval
 	

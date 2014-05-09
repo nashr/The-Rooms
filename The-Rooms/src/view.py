@@ -244,7 +244,9 @@ class Room(Widget):
 
 	fontSize = NumericProperty(64.0)
 
-	nBomb = NumericProperty(0)
+	n_room = NumericProperty(0)
+
+	n_bomb = NumericProperty(0)
 
 	# Children (by default)
 	nBomb = ObjectProperty(None)
@@ -260,6 +262,25 @@ class Room(Widget):
 	leftLamp = ObjectProperty(None)
 	centerLamp = ObjectProperty(None)
 	RightLamp = ObjectProperty(None)
+	
+	pause = ObjectProperty(None)
+
+	def __init__(self, **kwargs):
+		super(Room, self).__init__(**kwargs)
+		
+		# Define transitions
+		# 1 - Out once
+		self.transOut = Animation(opacity = 0) + Animation(opacity = 1)
+		self.transOut.bind(on_progress = self.remove_all_children)
+
+	def remove_all_children(self, anim, widget, progress):
+		if progress > 0.5 and progress < 0.51:
+			self.n_room = 0
+			self.roomProperty = [-1, -1, -1, -1, -1, -1]
+
+			self.clear_widgets()
+
+			self.game.home()
 
 	def set_base(self, game):
 		self.game = game
@@ -267,6 +288,7 @@ class Room(Widget):
 		# Get resources
 		self.imageManager = ImageManager()
 		
+		# Set background
 		self.TEXTURE = Image(self.imageManager.roomdir).texture
 		
 		self.WIDTH = self.TEXTURE.width
@@ -287,9 +309,24 @@ class Room(Widget):
 		self.leftLamp.set_base(self.imageManager.leftlampdir, 80.0, 437.5)
 		self.centerLamp.set_base(self.imageManager.centerlampdir, 375.0, 410.0)
 		self.rightLamp.set_base(self.imageManager.rightlampdir, 668.0, 437.5)
+
+		# Is there a door (at) [ahead, right, back, left]
+		# Code: -1: no door; 0: door with green light; 1: door with grey light; 2: door with red light
+		# and [number of bombs nearby, plant direction]
+		# Code: -1: data not available; 0..n: number of bombs or direction of arrow
+		self.roomProperty = [-1, -1, -1, -1, -1, -1]
 		
-		# door ahead, door right, door back, door left, number, arrow
-		self.roomProperty = [1, 1, 1, 1, 0, 0]
+		self.remove_widget(self.nBomb)
+		self.remove_widget(self.navi)
+		self.remove_widget(self.back)
+		self.remove_widget(self.leftDoor)
+		self.remove_widget(self.centerDoor)
+		self.remove_widget(self.rightDoor)
+		self.remove_widget(self.leftLamp)
+		self.remove_widget(self.centerLamp)
+		self.remove_widget(self.rightLamp)
+		
+		self.remove_widget(self.pause)
 
 	def set_room(self, property):
 		for i in range(6):
@@ -347,6 +384,10 @@ class Room(Widget):
 						pass
 
 				self.roomProperty[i] = property[i]
+		
+		self.n_room += 1
+		if self.n_room == 1:
+			self.add_widget(self.pause)
 
 	def update(self, xScale, yScale, fontSize):
 		self.width = self.WIDTH * xScale
@@ -372,10 +413,7 @@ class Room(Widget):
 		self.fontSize = fontSize
 
 	def home(self, widget):
-		anim = Animation(opacity = 1, d = 0.5) + Animation(opacity = 0.5, d = 0.5)
-		anim.start(widget)
-		
-		self.game.home()
+		self.transOut.start(self)
 
 	def on_touch_down(self, touch):
 		super(Room, self).on_touch_down(touch)

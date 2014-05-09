@@ -26,28 +26,29 @@ class TheRoomsGame(Widget):
 	room = ObjectProperty(None)
 	
 	def __init__(self, **kwargs):
-		print 'main.py\t: __init__()'
 		super(TheRoomsGame, self).__init__(**kwargs)
 
 		# Define transitions
 		# 1 - Out once
 		self.transOut = Animation(opacity = 0)
-		self.transOut.bind(on_complete = self.remove)
+		self.transOut.bind(on_complete = self.remove_child)
 
-		# 2 - Inter rooms
+		# 2 - In once
+		self.transIn = Animation(opacity = 1)
+
+		# 3 - Inter rooms
 		self.transRoom = Animation(opacity = 0, d = 1.5) + Animation(opacity = 1)
 		self.transRoom.bind(on_progress = self.prepare_room)
 		
+		# First screen to see is menu
 		self.state = 0
 		
 		self.menu.set_base(self)
 		self.room.set_base(self)
 		
 		self.maze = Maze(4, 6)
-		
-		self.room.set_room(self.maze.load_curr_room_property())
 
-	def remove(self, anim, widget):
+	def remove_child(self, anim, widget):
 		widget.parent.remove_widget(widget)
 
 	def prepare_room(self, anim, widget, progress):
@@ -77,9 +78,13 @@ class TheRoomsGame(Widget):
 		self.maze.generate_rooms()
 		
 		self.transRoom.start(self.room)
-	
+
 	def home(self):
-		print 'Amitabachan'
+		self.add_widget(self.menu)
+		
+		self.state = 0
+		
+		self.transIn.start(self.menu)
 
 	## 
 	#  @brief intermethod between input on widget with its logic structure

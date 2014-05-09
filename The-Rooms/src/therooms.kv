@@ -29,6 +29,7 @@
 		Rectangle:
 			pos: 0, 0
 			size: self.width, self.height
+
 	Button:
 		background_color: 1, 1, 1, 0
 		x: root.width / 32
@@ -81,6 +82,8 @@
 	centerLamp: center_lamp.__self__
 	rightLamp: right_lamp.__self__
 
+	pause: btn_pause.__self__
+
 	canvas:
 		Rectangle:
 			pos: self.X, self.Y
@@ -92,14 +95,15 @@
 		center_x: root.center_x
 		center_y: root.height - root.height / 16
 		font_size: root.fontSize
-		text: str(root.nBomb)
+		text: str(root.n_bomb)
 
 	Button:
-		opacity: .5
+		id: btn_pause
+		background_color: 1, 1, 1, 1
 		y: root.height - root.height / 14
 		font_size: root.fontSize * 0.5
-		size: root.width / 8, root.height / 14
-		text: 'Back'
+		size: root.width / 16, root.height / 14
+		text: 'll'
 		on_press: root.home(self)
 
 	Door:
@@ -127,11 +131,11 @@
 		id: navi_arrow
 
 <TheRoomsGame>:
-	menu: btn_menu.__self__
+	menu: menu.__self__
 	room: room.__self__
 
 	Room:
 		id: room
 
 	Menu:
-		id: btn_menu
+		id: menu
