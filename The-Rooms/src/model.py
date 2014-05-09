@@ -69,8 +69,10 @@ class Maze:
 	
 	def generate_rooms(self):
 		self.player.set_pos(self.row - 1, self.col - 1)
-		print str(self.player.r) + ' ' + str(self.player.c)
 	
+	def reset_maze(self):
+		self.player.set_pos(-1, -1)
+
 	def change_room(self, code):
 		if code == 0:
 			self.player.move_ahead()
@@ -80,8 +82,6 @@ class Maze:
 			self.player.move_back()
 		else: # code == 3
 			self.player.move_left()
-		
-		print str(self.player.r) + ' ' + str(self.player.c)
 	
 	def change_lamp(self, code, state):
 		room_idx = 0

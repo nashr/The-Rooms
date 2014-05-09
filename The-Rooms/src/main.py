@@ -84,6 +84,8 @@ class TheRoomsGame(Widget):
 		
 		self.state = 0
 		
+		self.maze.reset_maze()
+		
 		self.transIn.start(self.menu)
 
 	## 
