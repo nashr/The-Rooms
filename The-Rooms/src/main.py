@@ -2,8 +2,10 @@ from kivy.animation import Animation
 from kivy.app import App
 from kivy.clock import Clock
 from kivy.graphics import Callback, Color, Rectangle
-from kivy.properties import NumericProperty, ObjectProperty
+from kivy.properties import NumericProperty, ObjectProperty, StringProperty
 from kivy.uix.widget import Widget
+
+import json
 
 from model import Maze
 from view import Menu, Room
@@ -20,6 +22,12 @@ class TheRoomsGame(Widget):
 	
 	# 3 - current state (0: menu; 1: game; 2: gameover)
 	state = NumericProperty(0)
+
+	# 4 - user data store directory
+	dataDir = StringProperty('')
+	
+	# 4.1 - user data file name
+	userData = StringProperty('')
 
 	# Child widgets
 	menu = ObjectProperty(None)
@@ -40,6 +48,9 @@ class TheRoomsGame(Widget):
 		self.transRoom = Animation(opacity = 0, d = 1.5) + Animation(opacity = 1)
 		self.transRoom.bind(on_progress = self.prepare_room)
 		
+		# Data filename
+		self.userData = 'stat.dat'
+		
 		# First screen to see is menu
 		self.state = 0
 		
@@ -47,6 +58,17 @@ class TheRoomsGame(Widget):
 		self.room.set_base(self)
 		
 		self.maze = Maze(4, 6)
+
+	def set_data_dir(self, dir):
+		self.dataDir = dir + '//'
+	
+	def load_data(self):
+		with open(self.dataDir + self.userData, 'r') as file:
+			print file.readline() + file.readline()
+	
+	def save_data(self):
+		with open(self.dataDir + self.userData, 'w') as file:
+			json.dump([100, 'Gumbi', 160], file)
 
 	def remove_child(self, anim, widget):
 		widget.parent.remove_widget(widget)
@@ -71,6 +93,7 @@ class TheRoomsGame(Widget):
 		return retval
 	
 	def play(self):
+		self.save_data()
 		self.transOut.start(self.menu)
 
 		self.state = 1
@@ -115,6 +138,7 @@ class TheRoomsGame(Widget):
 class TheRoomsApp(App):
 	def build(self):
 		game = TheRoomsGame()
+		game.set_data_dir(self.user_data_dir)
 		Clock.schedule_interval(game.update, 1.0 / 30.0)
 		return game
 
