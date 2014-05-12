@@ -2,6 +2,8 @@ from kivy.animation import Animation
 from kivy.core.image import Image
 from kivy.core.window import Window
 from kivy.properties import NumericProperty, ObjectProperty, StringProperty
+from kivy.uix.textinput import TextInput
+from kivy.uix.popup import Popup
 from kivy.uix.widget import Widget
 
 from manager import ImageManager
@@ -177,6 +179,12 @@ class Menu(Widget):
 		
 		self.fontSize = fontSize
 	
+	def edit_name(self):
+		content = TextInput(text = 'Player', font_size = self.fontSize * .4, multiline = False, padding = (2, 0))
+		popup = Popup(title = 'Input your name:', content = content, size_hint = (None, None), size = (self.width / 2, self.height / 5))
+		
+		popup.open()
+
 	def play(self):
 		self.game.play()
 
