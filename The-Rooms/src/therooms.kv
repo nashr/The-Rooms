@@ -71,6 +71,13 @@
 	canvas.after:
 		PopMatrix:
 
+<Plant>:
+	canvas:
+		Rectangle:
+			pos: self.x, self.y
+			size: self.width, self.height
+			texture: self.TEXTURE
+
 <Room>:
 	nBomb: lbl_nbomb.__self__
 
@@ -85,6 +92,8 @@
 	leftLamp: left_lamp.__self__
 	centerLamp: center_lamp.__self__
 	rightLamp: right_lamp.__self__
+	
+	plant: plant.__self__
 
 	pause: btn_pause.__self__
 
@@ -133,6 +142,9 @@
 	
 	Navigator:
 		id: navi_arrow
+	
+	Plant:
+		id: plant
 
 <TheRoomsGame>:
 	menu: menu.__self__

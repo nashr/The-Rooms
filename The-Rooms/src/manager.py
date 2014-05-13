@@ -38,3 +38,6 @@ class ImageManager:
 
 	# 3 - Right
 	rightlampdir = os.path.join(imgdir, "Lamp_Right.png")
+	
+	# Plant's directory
+	plantdir = os.path.join(imgdir, "Plant.png")

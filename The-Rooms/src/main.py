@@ -108,7 +108,7 @@ class TheRoomsGame(Widget):
 
 		self.state = 1
 		
-		self.maze.generate_rooms()
+		self.maze.generate_rooms(4, 6)
 		
 		self.transRoom.start(self.room)
 

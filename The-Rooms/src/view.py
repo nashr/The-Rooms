@@ -235,9 +235,6 @@ class Navigator(Widget):
 		self.Y = y
 
 	def update(self, xScale, yScale):
-		self.angle += 1.0
-		self.angle %= 360.0
-
 		self.xUnit = self.X_UNIT * xScale
 		self.yUnit = self.Y_UNIT * yScale
 		
@@ -245,6 +242,39 @@ class Navigator(Widget):
 		self.y = self.Y * yScale
 		
 		self.curr_texture = self.TEXTURE.get_region(0, 0, self.X_UNIT, self.Y_UNIT)
+
+class Plant(Widget):
+	# Base variables
+	TEXTURE = ObjectProperty(None)
+	
+	WIDTH = NumericProperty(1.0)
+	HEIGHT = NumericProperty(1.0)
+	
+	X = NumericProperty(1.0)
+	Y = NumericProperty(1.0)
+
+	# Run variables
+	width = NumericProperty(1.0)
+	height = NumericProperty(1.0)
+	
+	x = NumericProperty(1.0)
+	y = NumericProperty(1.0)
+
+	def set_base(self, texture_dir, x, y):
+		self.TEXTURE = Image(texture_dir).texture
+		
+		self.WIDTH = self.TEXTURE.width
+		self.HEIGHT = self.TEXTURE.height
+		
+		self.X = x
+		self.Y = y
+
+	def update(self, xScale, yScale):
+		self.width = self.WIDTH * xScale
+		self.height = self.HEIGHT * yScale
+		
+		self.x = self.X * xScale
+		self.y = self.Y * yScale
 
 class Room(Widget):
 	# Base variables
@@ -280,6 +310,8 @@ class Room(Widget):
 	leftLamp = ObjectProperty(None)
 	centerLamp = ObjectProperty(None)
 	RightLamp = ObjectProperty(None)
+	
+	plant = ObjectProperty(None)
 	
 	pause = ObjectProperty(None)
 
@@ -328,6 +360,8 @@ class Room(Widget):
 		self.centerLamp.set_base(self.imageManager.centerlampdir, 375.0, 410.0)
 		self.rightLamp.set_base(self.imageManager.rightlampdir, 668.0, 437.5)
 
+		self.plant.set_base(self.imageManager.plantdir, 368.0, 268.0)
+
 		# Is there a door (at) [ahead, right, back, left]
 		# Code: -1: no door; 0: door with green light; 1: door with grey light; 2: door with red light
 		# and [number of bombs nearby, plant direction]
@@ -343,7 +377,7 @@ class Room(Widget):
 		self.remove_widget(self.leftLamp)
 		self.remove_widget(self.centerLamp)
 		self.remove_widget(self.rightLamp)
-		
+		self.remove_widget(self.plant)
 		self.remove_widget(self.pause)
 
 	def set_room(self, property):
@@ -369,8 +403,10 @@ class Room(Widget):
 						self.leftLamp.state = property[i]
 					elif i == 4:
 						self.add_widget(self.nBomb)
+						self.n_bomb = property[i]
 					else: # i == 5
 						self.add_widget(self.navi)
+						self.navi.angle = property[i]
 				elif property[i] == -1:
 					if i == 0:
 						self.remove_widget(self.centerDoor)
@@ -386,6 +422,7 @@ class Room(Widget):
 					elif i == 4:
 						self.remove_widget(self.nBomb)
 					else: # i == 5
+						self.add_widget(self.plant)
 						self.remove_widget(self.navi)
 				else:
 					if i == 0:
@@ -397,9 +434,9 @@ class Room(Widget):
 					elif i == 3:
 						self.leftLamp.state = property[i]
 					elif i == 4:
-						pass
+						self.n_bomb = property[i]
 					else: # i == 5
-						pass
+						self.navi.angle = property[i]
 
 				self.roomProperty[i] = property[i]
 		
@@ -412,6 +449,8 @@ class Room(Widget):
 		self.height = self.HEIGHT * yScale
 		
 		self.navi.update(xScale, yScale)
+		
+		self.plant.update(xScale, yScale)
 		
 		if self.roomProperty[0] > -1:
 			self.centerDoor.update(xScale, yScale)
@@ -429,6 +468,9 @@ class Room(Widget):
 			self.leftLamp.update(xScale, yScale)
 		
 		self.fontSize = fontSize
+		
+		if self.player.r == self.plant.r and self.player.c == self.plant.c:
+			pass
 	
 	def stop_game(self):
 		self.transOut.start(self)
