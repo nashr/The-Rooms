@@ -103,12 +103,12 @@
 
 	Button:
 		id: btn_pause
-		background_color: 1, 1, 1, 1
-		y: root.height - root.height / 14
+		background_color: 1, 1, 1, .75
+		y: root.height - root.height / 12
 		font_size: root.fontSize * 0.5
-		size: root.width / 16, root.height / 14
-		text: 'll'
-		on_press: root.home(self)
+		size: root.width / 6, root.height / 12
+		text: 'Menu'
+		on_press: root.stop_game()
 
 	Door:
 		id: left_door

@@ -2,8 +2,10 @@ from kivy.animation import Animation
 from kivy.core.image import Image
 from kivy.core.window import Window
 from kivy.properties import NumericProperty, ObjectProperty, StringProperty
-from kivy.uix.textinput import TextInput
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.button import Button
 from kivy.uix.popup import Popup
+from kivy.uix.textinput import TextInput
 from kivy.uix.widget import Widget
 
 from manager import ImageManager
@@ -427,8 +429,8 @@ class Room(Widget):
 			self.leftLamp.update(xScale, yScale)
 		
 		self.fontSize = fontSize
-
-	def home(self, widget):
+	
+	def stop_game(self):
 		self.transOut.start(self)
 
 	def on_touch_down(self, touch):
