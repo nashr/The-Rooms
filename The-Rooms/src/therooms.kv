@@ -32,11 +32,14 @@
 
 	Button:
 		background_color: 1, 1, 1, 0
-		x: root.width / 32
-		center_y: root.height * 15 / 16
+		x: 6
+		y: root.height - root.height / 10
 		font_size: root.fontSize * 0.4
 		on_press: root.edit_name()
-		text: 'Hi, Player!'
+		size: root.width / 2, root.height / 10
+		text: 'Hi, ' + root.name + '!'
+		text_size: self.size
+		shorten: True
 
 	Label:
 		center_x: root.centerX

@@ -166,9 +166,12 @@ class Menu(Widget):
 	
 	centerX = NumericProperty(0.0)
 	centerY = NumericProperty(0.0)
+	
+	name = StringProperty('')
 
 	def set_base(self, game):
 		self.game = game
+		self.name = game.name
 
 	def update(self, width, height, fontSize):
 		self.width = width
@@ -180,10 +183,15 @@ class Menu(Widget):
 		self.fontSize = fontSize
 	
 	def edit_name(self):
-		content = TextInput(text = 'Player', font_size = self.fontSize * .4, multiline = False, padding = (2, 0))
-		popup = Popup(title = 'Input your name:', content = content, size_hint = (None, None), size = (self.width / 2, self.height / 5))
+		content = TextInput(text = self.name, font_size = self.fontSize * .4, multiline = False, padding = (2, 0))
+		popup = Popup(title = 'Input new name:', content = content, size_hint = (None, None), size = (self.width / 2, self.height / 5))
+		popup.bind(on_dismiss = self.update_name)
 		
 		popup.open()
+
+	def update_name(self, instance):
+		self.name = instance.content.text
+		self.game.name = self.name
 
 	def play(self):
 		self.game.play()

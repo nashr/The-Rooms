@@ -29,6 +29,11 @@ class TheRoomsGame(Widget):
 	# 4.1 - user data file name
 	userData = StringProperty('')
 
+	# 5 - game data
+	score = NumericProperty(0)
+	name = StringProperty('')
+	time = NumericProperty(0)
+
 	# Child widgets
 	menu = ObjectProperty(None)
 	room = ObjectProperty(None)
@@ -53,7 +58,10 @@ class TheRoomsGame(Widget):
 		
 		# First screen to see is menu
 		self.state = 0
-		
+
+	def prepare (self):
+		self.load_data()
+
 		self.menu.set_base(self)
 		self.room.set_base(self)
 		
@@ -64,11 +72,14 @@ class TheRoomsGame(Widget):
 	
 	def load_data(self):
 		with open(self.dataDir + self.userData, 'r') as file:
-			print file.readline() + file.readline()
-	
+			data = json.loads(file.readline())
+			self.score = data[0]
+			self.name = data[1]
+			self.time = data[2]
+
 	def save_data(self):
 		with open(self.dataDir + self.userData, 'w') as file:
-			json.dump([100, 'Gumbi', 160], file)
+			json.dump([self.score, self.name, self.time], file)
 
 	def remove_child(self, anim, widget):
 		widget.parent.remove_widget(widget)
@@ -93,7 +104,6 @@ class TheRoomsGame(Widget):
 		return retval
 	
 	def play(self):
-		self.save_data()
 		self.transOut.start(self.menu)
 
 		self.state = 1
@@ -137,10 +147,17 @@ class TheRoomsGame(Widget):
 # Main app
 class TheRoomsApp(App):
 	def build(self):
-		game = TheRoomsGame()
-		game.set_data_dir(self.user_data_dir)
-		Clock.schedule_interval(game.update, 1.0 / 30.0)
-		return game
+		self.game = TheRoomsGame()
+		self.game.set_data_dir(self.user_data_dir)
+		self.game.prepare()
+
+		Clock.schedule_interval(self.game.update, 1.0 / 30.0)
+
+		return self.game
+	
+	def on_stop(self):
+		self.game.save_data()
+		super(TheRoomsApp, self).on_stop()
 
 # Launch app in standalone mode
 if __name__ == '__main__':
