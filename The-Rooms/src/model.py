@@ -173,7 +173,7 @@ class Maze:
 		if c_plant < col / 2:
 			c = col - 1
 
-		while self.rooms[r * col + c] != 0:
+		while self.rooms[r * col + c] != 0 and (r * col + c) != (r_plant * col + c_plant):
 			if abs(r_plant - r) < abs(c_plant - c):
 				c += (c_plant - c) / abs(c_plant - c)
 			elif abs(r_plant - r) > abs(c_plant - c):
@@ -204,6 +204,9 @@ class Maze:
 
 	def reset_maze(self):
 		self.player.set_pos(-1, -1)
+		
+		for i in range(self.row * self.col):
+			self.rooms[i] = 0
 
 	def change_room(self, code):
 		if code == 0:

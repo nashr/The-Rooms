@@ -549,6 +549,7 @@ class Room(Widget):
 			popup.open()
 	
 	def stop_game(self, instance):
+		self.received = True
 		self.transOut.start(self)
 
 	def on_touch_down(self, touch):
