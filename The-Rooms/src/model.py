@@ -173,7 +173,7 @@ class Maze:
 		if c_plant < col / 2:
 			c = col - 1
 
-		while self.rooms[r * col + c] != 0 and (r * col + c) != (r_plant * col + c_plant):
+		while self.rooms[r * col + c] != 0:
 			if abs(r_plant - r) < abs(c_plant - c):
 				c += (c_plant - c) / abs(c_plant - c)
 			elif abs(r_plant - r) > abs(c_plant - c):

@@ -149,6 +149,8 @@ class TheRoomsGame(Widget):
 # Main app
 class TheRoomsApp(App):
 	def build(self):
+		self.icon = 'icon.png'
+
 		self.game = TheRoomsGame()
 		self.game.set_data_dir(self.user_data_dir)
 		self.game.prepare()
