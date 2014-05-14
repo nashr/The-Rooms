@@ -65,7 +65,7 @@ class TheRoomsGame(Widget):
 		self.menu.set_base(self)
 		self.room.set_base(self)
 		
-		self.maze = Maze(4, 6)
+		self.maze = Maze(9, 9)
 
 	def set_data_dir(self, dir):
 		self.dataDir = dir + '//'
@@ -108,7 +108,7 @@ class TheRoomsGame(Widget):
 
 		self.state = 1
 		
-		self.maze.generate_rooms(4, 6)
+		self.maze.generate_rooms(9, 9)
 		
 		self.transRoom.start(self.room)
 
