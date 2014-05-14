@@ -175,14 +175,26 @@ class Maze:
 
 		while self.rooms[r * col + c] != 0:
 			if abs(r_plant - r) < abs(c_plant - c):
-				c += (c_plant - c) / abs(c_plant - c)
-			elif abs(r_plant - r) > abs(c_plant - c):
-				r += (r_plant - r) / abs(r_plant - r)
-			else:
-				if row < col or r_plant == r:
-					c += (c_plant - c) / abs(c_plant - c)
+				if c_plant < c:
+					c -= 1
 				else:
-					r += (r_plant - r) / abs(r_plant - r)
+					c += 1
+			elif abs(r_plant - r) > abs(c_plant - c):
+				if r_plant < r:
+					r -= 1
+				else:
+					r += 1
+			else:
+				if row < col:
+					if c_plant < c:
+						c -= 1
+					else:
+						c += 1
+				else:
+					if r_plant < r:
+						r -= 1
+					else:
+						r += 1
 
 		self.player.set_pos(r, c)
 		
