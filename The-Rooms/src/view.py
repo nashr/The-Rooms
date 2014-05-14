@@ -52,6 +52,41 @@ class Back(Widget):
 		self.x = self.X * xScale
 		self.y = self.Y * yScale
 
+class Bomb(Widget):
+	# Base variables
+	DIR = StringProperty('')
+	TEXTURE = ObjectProperty(None)
+	
+	WIDTH = NumericProperty(1.0)
+	HEIGHT = NumericProperty(1.0)
+	
+	X = NumericProperty(1.0)
+	Y = NumericProperty(1.0)
+
+	# Run variables
+	width = NumericProperty(1.0)
+	height = NumericProperty(1.0)
+	
+	x = NumericProperty(1.0)
+	y = NumericProperty(1.0)
+
+	def set_base(self, texture_dir, x, y):
+		self.DIR = texture_dir
+		self.TEXTURE = Image(texture_dir).texture
+		
+		self.WIDTH = self.TEXTURE.width
+		self.HEIGHT = self.TEXTURE.height
+		
+		self.X = x
+		self.Y = y
+
+	def update(self, xScale, yScale):
+		self.width = self.WIDTH * xScale
+		self.height = self.HEIGHT * yScale
+		
+		self.x = self.X * xScale
+		self.y = self.Y * yScale
+
 class Door(Widget):
 	# Base variables
 	TEXTURE = ObjectProperty(None)
@@ -369,6 +404,9 @@ class Room(Widget):
 		self.rightLamp.set_base(self.imageManager.rightlampdir, 668.0, 437.5)
 
 		self.plant.set_base(self.imageManager.plantdir, 368.0, 268.0)
+		
+		self.bomb = Bomb()
+		self.bomb.set_base(self.imageManager.bombdir, 368.0, 268.0)
 
 		# Is there a door (at) [ahead, right, back, left]
 		# Code: -1: no door; 0: door with green light; 1: door with grey light; 2: door with red light
@@ -495,6 +533,20 @@ class Room(Widget):
 			popup.open()
 		elif gameOver == -1 and not self.received: # Lose
 			self.received = True
+			content = BoxLayout(orientation = 'vertical')
+
+			image = kivy.uix.image.Image(source = self.bomb.DIR)
+			menu = Button(text = 'Menu', font_size = self.fontSize * .4)
+			
+			content.add_widget(image)
+			content.add_widget(menu)
+
+			popup = Popup(title = 'You hit a bomb!', content = content, size_hint = (.3, .5), auto_dismiss = False)
+			
+			menu.bind(on_press = popup.dismiss)
+			popup.bind(on_dismiss = self.stop_game)
+			
+			popup.open()
 	
 	def stop_game(self, instance):
 		self.transOut.start(self)

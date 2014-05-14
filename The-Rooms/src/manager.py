@@ -41,3 +41,6 @@ class ImageManager:
 	
 	# Plant's directory
 	plantdir = os.path.join(imgdir, "Plant.png")
+	
+	# Bomb's directory
+	bombdir = os.path.join(imgdir, "Bomb.png")
