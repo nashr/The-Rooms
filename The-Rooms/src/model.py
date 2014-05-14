@@ -255,6 +255,15 @@ class Maze:
 				room_idx = (self.player.r + 1) * self.col + self.player.c
 		
 		self.lights[room_idx] = state
+	
+	def game_state(self):
+		if self.player.r == self.plant.r and self.player.c == self.plant.c and self.player.r != -1:
+			return 1 # Win
+
+		if self.rooms[self.player.r * self.col + self.player.c] == -1:
+			return -1 # Lose
+
+		return 0 # Not win, not lose
 
 class Plant:
 	# Position of plant ([row, column] with [0,0] is the most north west)

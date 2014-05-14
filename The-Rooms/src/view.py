@@ -4,9 +4,12 @@ from kivy.core.window import Window
 from kivy.properties import NumericProperty, ObjectProperty, StringProperty
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
+#from kivy.uix.image import Image
 from kivy.uix.popup import Popup
 from kivy.uix.textinput import TextInput
 from kivy.uix.widget import Widget
+
+import kivy.uix.image
 
 from manager import ImageManager
 
@@ -245,6 +248,7 @@ class Navigator(Widget):
 
 class Plant(Widget):
 	# Base variables
+	DIR = StringProperty('')
 	TEXTURE = ObjectProperty(None)
 	
 	WIDTH = NumericProperty(1.0)
@@ -261,6 +265,7 @@ class Plant(Widget):
 	y = NumericProperty(1.0)
 
 	def set_base(self, texture_dir, x, y):
+		self.DIR = texture_dir
 		self.TEXTURE = Image(texture_dir).texture
 		
 		self.WIDTH = self.TEXTURE.width
@@ -322,9 +327,12 @@ class Room(Widget):
 		# 1 - Out once
 		self.transOut = Animation(opacity = 0) + Animation(opacity = 1)
 		self.transOut.bind(on_progress = self.remove_all_children)
+		
+		self.received = False
 
 	def remove_all_children(self, anim, widget, progress):
 		if progress > 0.5 and progress < 0.51:
+			self.received = False
 			self.n_room = 0
 			self.roomProperty = [-1, -1, -1, -1, -1, -1]
 
@@ -444,7 +452,7 @@ class Room(Widget):
 		if self.n_room == 1:
 			self.add_widget(self.pause)
 
-	def update(self, xScale, yScale, fontSize):
+	def update(self, xScale, yScale, fontSize, gameOver):
 		self.width = self.WIDTH * xScale
 		self.height = self.HEIGHT * yScale
 		
@@ -469,10 +477,26 @@ class Room(Widget):
 		
 		self.fontSize = fontSize
 		
-		if self.player.r == self.plant.r and self.player.c == self.plant.c:
-			pass
+		if gameOver == 1 and not self.received: # Win
+			self.received = True
+			content = BoxLayout(orientation = 'vertical')
+
+			image = kivy.uix.image.Image(source = self.plant.DIR)
+			menu = Button(text = 'Menu', font_size = self.fontSize * .4)
+			
+			content.add_widget(image)
+			content.add_widget(menu)
+
+			popup = Popup(title = 'Congratulation!\nYou found the plant!', content = content, size_hint = (.3, .5), auto_dismiss = False)
+			
+			menu.bind(on_press = popup.dismiss)
+			popup.bind(on_dismiss = self.stop_game)
+			
+			popup.open()
+		elif gameOver == -1 and not self.received: # Lose
+			self.received = True
 	
-	def stop_game(self):
+	def stop_game(self, instance):
 		self.transOut.start(self)
 
 	def on_touch_down(self, touch):
