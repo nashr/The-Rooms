@@ -208,10 +208,12 @@ class Menu(Widget):
 	centerY = NumericProperty(0.0)
 	
 	name = StringProperty('')
+	time = NumericProperty(0)
 
 	def set_base(self, game):
 		self.game = game
 		self.name = game.name
+		self.time = game.time
 
 	def update(self, width, height, fontSize):
 		self.width = width

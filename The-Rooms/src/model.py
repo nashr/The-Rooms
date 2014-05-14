@@ -179,7 +179,7 @@ class Maze:
 			elif abs(r_plant - r) > abs(c_plant - c):
 				r += (r_plant - r) / abs(r_plant - r)
 			else:
-				if row < col:
+				if row < col or r_plant == r:
 					c += (c_plant - c) / abs(c_plant - c)
 				else:
 					r += (r_plant - r) / abs(r_plant - r)

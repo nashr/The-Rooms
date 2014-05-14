@@ -54,6 +54,15 @@
 		on_press: root.play()
 		size: root.width, root.height / 8
 		text: 'PLAY'
+	
+	Label:
+		center_x: root.width - root.width / 5
+		center_y: root.height - root.height / 10
+		font_size: root.fontSize * .4
+		size: root.width / 3, root.height / 10
+		text: 'Best: ' + str(root.time) + 's'
+		text_size: self.size
+		shorten: True
 
 <Navigator>:
 	canvas.before:
