@@ -201,18 +201,18 @@ class Maze:
 		print r
 		print c
 		
-		for i in range(row):
-			temp = ''
-			for j in range(col):
-				if self.rooms[i * col + j] == -1:
-					temp += 'B '
-				elif i == r_plant and j == c_plant:
-					temp += 'X '
-				elif i == r and j == c:
-					temp += 'O '
-				else:
-					temp += str(self.rooms[i * col + j]) + ' '
-			print temp
+		#for i in range(row):
+			#temp = ''
+			#for j in range(col):
+				#if self.rooms[i * col + j] == -1:
+					#temp += 'B '
+				#elif i == r_plant and j == c_plant:
+					#temp += 'X '
+				#elif i == r and j == c:
+					#temp += 'O '
+				#else:
+					#temp += str(self.rooms[i * col + j]) + ' '
+			#print temp
 
 	def is_solvable(self):
 		pass
