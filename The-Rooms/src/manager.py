@@ -3,7 +3,8 @@ from kivy.core.window import Window
 import os.path
 
 # Parent directory of resources
-resdir = os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir)), "res")
+#resdir = os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir)), "res")
+resdir = "res"
 
 class ImageManager:
 	# Directory of images
