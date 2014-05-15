@@ -5,6 +5,10 @@ Minesweeper likely game in 3D sense
 
 Installation instruction:
 - Deploy with name therooms
+- Icon file = icon.ico
+- title = The Rooms
+- author = nashr
+- orientation = landscape
 
 Game play instruction:
 - Your goal is to find a plant hidden among the rooms
