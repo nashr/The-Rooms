@@ -198,8 +198,6 @@ class Maze:
 				c = tc
 
 		self.player.set_pos(r, c)
-		print r
-		print c
 		
 		#for i in range(row):
 			#temp = ''
