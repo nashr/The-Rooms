@@ -178,6 +178,9 @@ class Lamp(Widget):
 		self.X = x
 		self.Y = y
 
+	def reset(self):
+		state = 1
+
 	def is_pressed(self, x, y):
 		if x > self.x and y > self.y:
 			if x < self.x + self.xUnit and y < self.y + self.yUnit:
@@ -209,6 +212,8 @@ class Menu(Widget):
 	
 	name = StringProperty('')
 	time = NumericProperty(0)
+	
+	bestTime = ObjectProperty(None)
 
 	def set_base(self, game):
 		self.game = game
@@ -464,14 +469,17 @@ class Room(Widget):
 				elif property[i] == -1:
 					if i == 0:
 						self.remove_widget(self.centerDoor)
+						self.centerLamp.reset()
 						self.remove_widget(self.centerLamp)
 					elif i == 1:
 						self.remove_widget(self.rightDoor)
+						self.rightLamp.reset()
 						self.remove_widget(self.rightLamp)
 					elif i == 2:
 						self.remove_widget(self.back)
 					elif i == 3:
 						self.remove_widget(self.leftDoor)
+						self.leftLamp.reset()
 						self.remove_widget(self.leftLamp)
 					elif i == 4:
 						self.remove_widget(self.nBomb)
@@ -547,6 +555,10 @@ class Room(Widget):
 			popup.bind(on_dismiss = self.stop_game)
 			
 			popup.open()
+			
+			if self.time_elapsed <= self.game.time or self.game.time == 0:
+				self.game.time = self.time_elapsed
+
 		elif gameOver == -1 and not self.received: # Lose
 			self.received = True
 			content = BoxLayout(orientation = 'vertical')
@@ -566,6 +578,13 @@ class Room(Widget):
 	
 	def stop_game(self, instance):
 		self.received = True
+		if self.roomProperty[0] != -1:
+			self.centerLamp.reset()
+		if self.roomProperty[1] != -1:
+			self.rightLamp.reset()
+		if self.roomProperty[3] != -1:
+			self.leftLamp.reset()
+			
 		self.transOut.start(self)
 
 	def on_touch_down(self, touch):
@@ -573,6 +592,7 @@ class Room(Widget):
 
 		if self.centerDoor.is_pressed(touch.x, touch.y) and self.roomProperty[0] > -1:
 			self.centerDoor.change_state()
+			self.game.go(0)
 		
 		if self.rightDoor.is_pressed(touch.x, touch.y) and self.roomProperty[1] > -1:
 			self.rightDoor.change_state()
@@ -603,7 +623,6 @@ class Room(Widget):
 
 		if self.centerDoor.is_pressed(touch.x, touch.y) and self.roomProperty[0] > -1:
 			self.centerDoor.change_state()
-			self.game.go(0)
 		
 		if self.rightDoor.is_pressed(touch.x, touch.y) and self.roomProperty[1] > -1:
 			self.rightDoor.change_state()

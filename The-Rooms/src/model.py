@@ -134,12 +134,14 @@ class Maze:
 
 		while len(self.rooms) < row * col:
 			self.rooms.append(0)
+			self.lights.append(1)
 		
 		while len(self.rooms) > row * col:
 			self.rooms.pop()
+			self.lights.pop()
 
 		# Generating bombs
-		for i in range(row * col / 4):
+		for i in range(row * col / 8):
 			r = random.randint(0, row - 1)
 			c = random.randint(0, col - 1)
 			while self.rooms[r * col + c] == -1:
@@ -178,27 +180,26 @@ class Maze:
 			inc_c = -1
 
 		while self.rooms[r * col + c] != 0:
-			print str(r) + ' ' + str(c)
 			r += inc_r
 			c += inc_c
 			
-			temp = r
-			while self.rooms[r * col + c] != 0 and r > 0 and r < row:
-				print str(r) + ' ' + str(c)
+			tr = r
+			while self.rooms[r * col + c] != 0 and r > 0 and r < row - 1:
 				r -= inc_r
 			
 			if self.rooms[r * col + c] != 0:
-				r = temp
+				r = tr
 			
-			temp = c
-			while self.rooms[r * col + c] != 0 and c > 0 and r < col:
-				print str(r) + ' ' + str(c)
+			tc = c
+			while self.rooms[r * col + c] != 0 and c > 0 and c < col - 1:
 				c -= inc_c
 			
 			if self.rooms[r * col + c] != 0:
-				c = temp
+				c = tc
 
 		self.player.set_pos(r, c)
+		print r
+		print c
 		
 		for i in range(row):
 			temp = ''

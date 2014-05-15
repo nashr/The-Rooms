@@ -22,6 +22,8 @@
 			texture: self.curr_texture
 
 <Menu>:
+	bestTime: lbl_besttime.__self__
+
 	canvas:
 		Color:
 			rgba: 0, 0, 0, .75
@@ -56,6 +58,7 @@
 		text: 'PLAY'
 	
 	Label:
+		id: lbl_besttime
 		center_x: root.width - root.width / 5
 		center_y: root.height - root.height / 10
 		font_size: root.fontSize * .4
