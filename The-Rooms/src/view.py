@@ -337,9 +337,13 @@ class Room(Widget):
 	n_room = NumericProperty(0)
 
 	n_bomb = NumericProperty(0)
+	
+	time_elapsed = NumericProperty(0)
 
 	# Children (by default)
 	nBomb = ObjectProperty(None)
+
+	gameTime = ObjectProperty(None)
 
 	navi = ObjectProperty(None)
 	
@@ -366,6 +370,7 @@ class Room(Widget):
 		self.transOut.bind(on_progress = self.remove_all_children)
 		
 		self.received = False
+		self.timer = 0
 
 	def remove_all_children(self, anim, widget, progress):
 		if progress > 0.5 and progress < 0.51:
@@ -417,6 +422,7 @@ class Room(Widget):
 		self.roomProperty = [-1, -1, -1, -1, -1, -1]
 		
 		self.remove_widget(self.nBomb)
+		self.remove_widget(self.gameTime)
 		self.remove_widget(self.navi)
 		self.remove_widget(self.back)
 		self.remove_widget(self.leftDoor)
@@ -491,6 +497,7 @@ class Room(Widget):
 		self.n_room += 1
 		if self.n_room == 1:
 			self.add_widget(self.pause)
+			self.add_widget(self.gameTime)
 
 	def update(self, xScale, yScale, fontSize, gameOver):
 		self.width = self.WIDTH * xScale
@@ -516,6 +523,13 @@ class Room(Widget):
 			self.leftLamp.update(xScale, yScale)
 		
 		self.fontSize = fontSize
+		
+		if self.game.state == 1:
+			self.timer += 1
+			self.timer %= 30
+
+			if self.timer == 0:
+				self.time_elapsed += 1
 		
 		if gameOver == 1 and not self.received: # Win
 			self.received = True

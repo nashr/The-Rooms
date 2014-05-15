@@ -89,6 +89,7 @@
 
 <Room>:
 	nBomb: lbl_nbomb.__self__
+	gameTime: lbl_time.__self__
 
 	navi: navi_arrow.__self__
 	
@@ -127,6 +128,12 @@
 		size: root.width / 6, root.height / 12
 		text: 'Menu'
 		on_press: root.stop_game(self)
+	
+	Label:
+		id: lbl_time
+		pos: root.width / 12, - root.height / 24
+		font_size: root.fontSize * 0.5
+		text: str(root.time_elapsed) + 's'
 
 	Door:
 		id: left_door
@@ -154,10 +161,6 @@
 	
 	Plant:
 		id: plant
-	
-	Label:
-		font_size: root.fontSize * 0.5
-		text: 'Time'
 
 <TheRoomsGame>:
 	menu: menu.__self__

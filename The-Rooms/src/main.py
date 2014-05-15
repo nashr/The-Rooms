@@ -144,7 +144,10 @@ class TheRoomsGame(Widget):
 		if self.state == 0:
 			self.menu.update(self.width, self.height, self.fontSize)
 		
-		self.room.update(self.xScale, self.yScale, self.fontSize, self.maze.game_state())
+		state = self.maze.game_state()
+		if state != 0:
+			self.state = 2
+		self.room.update(self.xScale, self.yScale, self.fontSize, state)
 
 # Main app
 class TheRoomsApp(App):

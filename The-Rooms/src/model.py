@@ -166,35 +166,37 @@ class Maze:
 		# Generating player position
 		r = 0
 		c = 0
+		inc_r = 1
+		inc_c = 1
 
 		if r_plant < row / 2:
 			r = row - 1
+			inc_r = -1
 
 		if c_plant < col / 2:
 			c = col - 1
+			inc_c = -1
 
 		while self.rooms[r * col + c] != 0:
-			if abs(r_plant - r) < abs(c_plant - c):
-				if c_plant < c:
-					c -= 1
-				else:
-					c += 1
-			elif abs(r_plant - r) > abs(c_plant - c):
-				if r_plant < r:
-					r -= 1
-				else:
-					r += 1
-			else:
-				if row < col:
-					if c_plant < c:
-						c -= 1
-					else:
-						c += 1
-				else:
-					if r_plant < r:
-						r -= 1
-					else:
-						r += 1
+			print str(r) + ' ' + str(c)
+			r += inc_r
+			c += inc_c
+			
+			temp = r
+			while self.rooms[r * col + c] != 0 and r > 0 and r < row:
+				print str(r) + ' ' + str(c)
+				r -= inc_r
+			
+			if self.rooms[r * col + c] != 0:
+				r = temp
+			
+			temp = c
+			while self.rooms[r * col + c] != 0 and c > 0 and r < col:
+				print str(r) + ' ' + str(c)
+				c -= inc_c
+			
+			if self.rooms[r * col + c] != 0:
+				c = temp
 
 		self.player.set_pos(r, c)
 		
